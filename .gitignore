@@ -4,5 +4,4 @@ target
 *.iml
 .idea
 pom.mocp
-pom.xml
 readme.notes.md
