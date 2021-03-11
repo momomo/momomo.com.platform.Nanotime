@@ -1,4 +1,4 @@
-## momomo.com.plaform.Lambda
+## momomo.com.plaform.Nanotime
 
 ##### A one method Java time that allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis`.
 
