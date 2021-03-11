@@ -1,4 +1,4 @@
-## momomo.com.plaform.Nanotime
+## momomo.com.platform.Nanotime
 
 ##### Allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis`.
 
