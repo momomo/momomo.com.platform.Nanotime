@@ -38,7 +38,7 @@ To ensure a proper behaviour always we recalibrate every now and then to ensure 
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.Nanotime</artifactId>
-  <version>1.3.7</version>
+  <version>1.3.8</version>
 </dependency>                                                      
 ```                         
 ##### Repository
