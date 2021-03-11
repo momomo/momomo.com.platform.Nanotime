@@ -65,6 +65,20 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 A sample test run on our example() code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
 
 ```
+private static void example() throws InterruptedException {
+    int i = -1; while (++i < 100) {
+        System.out.println(
+            "nanos : " + Nano.time()                + "\n" +
+            "millis: " + System.currentTimeMillis() + "\n"
+        );
+        
+        // Sleep a random about of nanoseconds
+        Thread.sleep(0, (int) Randoms.Long(0, 1000));
+    }
+}  
+```
+
+```
 nanos : 1615126882489 003232    
 millis: 1615126882489
 

@@ -438,7 +438,8 @@ public final class Nanotime {
             );
             
             try {
-                Thread.sleep(0, (int) Randoms.Long(300, 1000) );  // Sleep random nanos, so we can repeat the measurement at a more "random" time
+                // Sleep random nanos, so we can repeat the measurement at a more "random" time
+                Thread.sleep(0, Randoms.Integer(300, 1000) );  
             }
             catch (InterruptedException ignore) {}
         }
@@ -473,11 +474,11 @@ public final class Nanotime {
         int i = -1; while (++i < 100) {
             System.out.println(
                 "nanos : " + Nano.time() + "\n" +
-                    "millis: " + System.currentTimeMillis() + "\n"
+                "millis: " + System.currentTimeMillis() + "\n"
             );
             
             // Sleep a random about of nanoseconds
-            Thread.sleep(0, (int) Randoms.Long(0, 1000));
+            Thread.sleep(0, Randoms.Integer(0, 1000));
         }
     }
     /////////////////////////////////////////////////////////////////////
