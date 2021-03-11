@@ -388,8 +388,8 @@ import java.util.concurrent.TimeUnit;
  *
  * To configure Nanotime.java just call Nanotime.setInstance( new Nanotime() ) prior to any use of Nano.time(). You can also create your own instance version that is accessed separately.
  * 
- * @see momomo.com.Nanotime
- * @see momomo.com.Nano#setInstance(momomo.com.Nanotime)
+ * @see momomo.com.Nano#time()
+ * @see momomo.com.Nanotime#setInstance(momomo.com.Nanotime)
  * 
  * @author Joseph S.
  */
