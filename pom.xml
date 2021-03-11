@@ -28,7 +28,7 @@
     
     <groupId>com.momomo</groupId>
     <artifactId>mmm.platform.Nanotime</artifactId>
-    <version>5.4.3.2.1.2020.03.05.1-SNAPSHOT</version>
+    <version>5.4.3.2.1.2020.03.11.1-SNAPSHOT</version>
     
     <packaging>jar</packaging>
     
@@ -279,7 +279,7 @@
     <dependency>
         <groupId>com.momomo</groupId>
         <artifactId>mmm.platform.xy.lcd</artifactId>
-        <version>5.4.3.2.1.2020.03.05.1-SNAPSHOT</version>
+        <version>5.4.3.2.1.2020.03.11.1-SNAPSHOT</version>
     </dependency>
 
 
