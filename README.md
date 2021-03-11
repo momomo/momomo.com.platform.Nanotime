@@ -26,6 +26,12 @@ Rather it a higher precision one than `System.currentTimeMillis()` as `System.cu
 
 Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane origin, usually `EPOC` something we as humans can make sense of.
 
+Note, **recalibration** by default occurs every **60 minutes** but you may pass a value of your choice to trigger a recalibration how often you'd like and even turn it off completely by passing a null value to the constructor of `Nano.setInstance( new Nanotime(...) )`, 
+but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime.
+ 
+The only difference that might occur is that the diff between `System.currentTimeMillis() - System.nanoTime()` will increase or decrease depending on *changing system specification* and/or load. 
+To ensure a proper behaviour always we recalibrate every now and then to ensure we stay within proper bounds.
+
 #### Maven dependency available on maven central (search.maven.org)
 ##### Dependency   
 ```
@@ -42,12 +48,6 @@ Our code just calibrates the two and allows you to map `System.nanoTime()` to on
     <url>http://repo1.maven.org/maven2</url>
 </repository>
 ```
-
-Note, **recalibration** by default occurs every **60 minutes** but you may pass a value of your choice to trigger a recalibration how often you'd like and even turn it off completely by passing a null value to the constructor of `Nano.setInstance( new Nanotime(...) )`, 
-but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime.
- 
-The only difference that might occur is that the diff between `System.currentTimeMillis() - System.nanoTime()` will increase or decrease depending on *changing system specification* and/or load. 
-To ensure a proper behaviour always we recalibrate every now and then to ensure we stay within proper bounds.
 
 ### Guide
 

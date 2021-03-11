@@ -49,6 +49,31 @@ import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Allows for nanosecond precision when asking for time from Java Runtime than standard System.currentTimeMillis.
+ * First, know that System.nanoTime() is elapsed nanos since an arbitrary origin, usually the start of the JVM and can usually only be used to measure elapsed time between two invocations.
+ *
+ * What this implementation does is allow you to get a higher precision when asking for the time, with nanosecond precision.
+ *
+ * Normally, you can get the time from your system using System.currentTimeMillis() with millisecond precision but when invoked twice right after each other, calls to System.currentTimeMillis() will usually return the same value.
+ *
+ * We provide nanosecond precision for a method similar to System.currentTimeMillis() by essentially calibrating System.nanoTime() which records nanos elapsed since JVM started with System.currentTimeMillis().
+ *
+ * When calibrating the two, our code will:
+ *
+ * Ask System.currentTimeMillis() right after asking System.nanoTime(), in a one liner.
+ * 1. We will record the difference between the two.
+ * 2. Sleep a random amount of nano seconds.
+ * 3. Repeat this process 1000 times.
+ * 
+ * We then take the average difference recorded difference and use this average to go from System.nanoTime() to a System.currentTimeMillis() and as well as subtracting the average and calculated DIFF.
+ *
+ * Now, be aware!
+ * This is not a 100% accurate record of current time in nanos, if there ever could be such a definition as even atomic clocks do not give 100% accurate definition of time.
+ *
+ * Rather it a higher precision one than System.currentTimeMillis() as System.currentTimeMillis() will often prove useless when invoked tightly, while System.nanoTime() will show always show a diff.
+ *
+ * Our code just calibrates the two and allows you to map System.nanoTime() to one based on a sane origin, usually EPOC something we as humans can make sense of.
+ * 
  * 
  */
 
