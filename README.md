@@ -38,7 +38,7 @@ To ensure a proper behaviour always we recalibrate every now and then to ensure 
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.Nanotime</artifactId>
-  <version>1.3.6</version>
+  <version>1.3.7</version>
 </dependency>                                                      
 ```                         
 ##### Repository
@@ -65,7 +65,7 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 A sample test run on our example() code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
 
 ```
-private static void example() throws InterruptedException {
+public static void main(String[] args) throws InterruptedException {
     int i = -1; while (++i < 100) {
         System.out.println(
             "nanos : " + Nano.time()                + "\n" +
@@ -73,9 +73,9 @@ private static void example() throws InterruptedException {
         );
         
         // Sleep a random about of nanoseconds
-        Thread.sleep(0, (int) Randoms.Long(0, 1000));
+        Thread.sleep(0, Randoms.Integer(0, 1000));
     }
-}  
+}
 ```
 
 ```
