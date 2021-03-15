@@ -7,7 +7,7 @@ package momomo;
  *
  * While javadoc has its use, for some of our classes we do not need it.
  *
- * While we are here, we might also take the oppurtonity to discuss why we choose to use momomo.com rather than com.momomo as we are sure lots of people are asking themselves.
+ * While we are here, we might also take the oppurtonity to discuss why we choose to use momomo.com rather than com.momomo as we are sure some are asking themselves.
  *
  * Frankly we see no reason as to why packages are named in reverse. It makes no sense. If your domain is momomo.com why would you type it as com.momomo?
  * Well, you argue, and those before you have argued that due to domains being able to declare a subdomain, i.e io.momomo.com, then you would put code related to io in
