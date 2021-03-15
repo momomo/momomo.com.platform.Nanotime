@@ -1,3 +1,6 @@
+<!---
+-->
+
 ## momomo.com.platform.Nanotime
 
 ###### Allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis()`.
@@ -16,7 +19,7 @@ When calibrating the two, our code will:
    3. `Sleep` a random amount of nano seconds. 
    4. Repeat this process 1000 times.
 
-We then take the average difference recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` and as well as subtracting the average and calculated `DIFF`. 
+We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average and calculated `DIFF`. 
 
 ##### Now, be aware!
  
@@ -389,11 +392,6 @@ millis: 1615126882620
 nanos : 1615126882621 683248
 millis: 1615126882622 
 ```
-
-### Other
-Also see our other repositories
-
-   * [momomo.com.platform.Lambda](https://github.com/momomo/momomo.com.platform.Lambda)
 
 #### Contribute
 Send an email to `opensource{at}momomo.com` if you would like to contribute in any way, make changes or otherwise have thoughts and/or ideas on things to improve.
