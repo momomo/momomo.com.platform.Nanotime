@@ -5,3 +5,6 @@ target
 .idea
 pom.mocp
 readme.notes.md
+
+# This file is copied in and can not / should not be modified. It is not part of this package. 
+src/momomo/com/Randoms.java 
