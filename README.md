@@ -23,7 +23,7 @@ We then take the average recorded difference and use this average to go from `Sy
 
 ##### Now, be aware!
  
-This is not a *100%* accurate record of current time in nanos, if there ever **could be such a definition** as even atomic clocks do not give 100% accurate definition of time. 
+This is not a *100%* accurate record of current time in nanos, if there ever **could be such a definition** as even atomic clocks do not give a 100% accurate definition of time at any given moment. 
 
 Rather it a higher precision one than `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff.  
 
