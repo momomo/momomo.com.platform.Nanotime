@@ -77,7 +77,7 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 
 A sample test run on our example() code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
 
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     int i = -1; while (++i < 100) {
         System.out.println(
