@@ -1,6 +1,6 @@
 ## momomo.com.platform.Nanotime
 
-##### Allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis`.
+###### Allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis()`.
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
@@ -32,9 +32,9 @@ but there is *nothing to suggest* a recalibration is required unless the *underl
 The only difference that might occur is that the diff between `System.currentTimeMillis() - System.nanoTime()` will increase or decrease depending on *changing system specification* and/or load. 
 To ensure a proper behaviour always we recalibrate every now and then to ensure we stay within proper bounds.
 
-#### Maven dependency available on maven central (search.maven.org)
+#### Maven dependencies available on maven central [search.maven.org](https://search.maven.org/search?q=com.momomo)
 ##### Dependency   
-```
+```xml
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.Nanotime</artifactId>
@@ -42,12 +42,22 @@ To ensure a proper behaviour always we recalibrate every now and then to ensure 
 </dependency>                                                      
 ```                         
 ##### Repository
-```
+```xml
 <repository>
     <id>maven-central</id>
     <url>http://repo1.maven.org/maven2</url>
 </repository>
-```
+```                                 
+
+##### Our other GitHub repositories
+
+* [momomo.com.platform.Lambda](https://github.com/momomo/momomo.com.platform.Lambda)  
+Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed and understood intuitive pattern.  
+`Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
+
+* [momomo.com.platform.Core](https://github.com/momomo/momomo.com.platform.Lambda)  
+Is essentially what makes the Core of several of momomo.com's public releases and contains a bunch of `Java` utility. 
+
 
 ### Guide
 
