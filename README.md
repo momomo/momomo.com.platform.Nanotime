@@ -21,7 +21,7 @@ When calibrating the two, our code will:
 
 We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
 
-##### Do note.
+##### Be aware!
  
 Is this a *100% accurate* record of current time in nanos? Is there even **such a definition**? What is time? Even atomic clocks do not give a 100% accurate definition of time at any given moment.  
 
