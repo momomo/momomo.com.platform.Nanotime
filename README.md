@@ -552,7 +552,7 @@ millis: 1615923349195
 ```
 
 The thing to watch for is the rounding of nanos to millis, and when a rounding should occur.   
-**Look at the switch** from `1615923349194` to `1615923349195` we've repeated and commented below: 
+**Look at the switch** from `1615923349194` to `1615923349195` which we've repeated and commented below: 
 
 ```java
 nanos : 1615923349194492230
