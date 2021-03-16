@@ -20,9 +20,18 @@
     <id>maven-central</id>
     <url>http://repo1.maven.org/maven2</url>
 </repository>
-```                                                                          
+```
 
-##### Background
+##### Our other repositories
+
+* [momomo.com.platform.Lambda](https://github.com/momomo/momomo.com.platform.Lambda)  
+Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed and understood intuitive pattern.  
+`Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
+
+* [momomo.com.platform.Core](https://github.com/momomo/momomo.com.platform.Lambda)  
+Is essentially what makes the Core of several of momomo.com's public releases and contains a bunch of `Java` utility.                                                                           
+
+### Info
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
@@ -55,17 +64,6 @@ Our code just calibrates the two and allows you to map `System.nanoTime()` to on
 Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
 
 Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established1.
-
-
-##### Our other repositories
-
-* [momomo.com.platform.Lambda](https://github.com/momomo/momomo.com.platform.Lambda)  
-Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed and understood intuitive pattern.  
-`Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
-
-* [momomo.com.platform.Core](https://github.com/momomo/momomo.com.platform.Lambda)  
-Is essentially what makes the Core of several of momomo.com's public releases and contains a bunch of `Java` utility. 
-
 
 ### Guide
 
