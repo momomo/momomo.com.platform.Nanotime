@@ -11,7 +11,7 @@ What this implementation does is allow you to get a higher precision when asking
 
 Normally, you can get the time from your system using `System.currentTimeMillis(`) with millisecond precision but when invoked twice right after each other, calls to `System.currentTimeMillis()` will usually return the same value. 
 
-We provide nanosecond precision for a method similar to `System.currentTimeMillis()` by essentially calibrating `System.nanoTime()` which records nanos elapsed since JVM started with `System.currentTimeMillis()`.  
+This provides you with nanosecond precision for a method similar to `System.currentTimeMillis()` by essentially calibrating `System.nanoTime()` which records nanos elapsed since JVM started with `System.currentTimeMillis()`.  
 
 When calibrating the two, our code will:  
    1. Ask `System.currentTimeMillis()` right after asking `System.nanoTime()`, in a one liner. 
@@ -19,7 +19,7 @@ When calibrating the two, our code will:
    3. `Sleep` a random amount of nano seconds. 
    4. Repeat this process 1000 times.
 
-We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average and calculated `DIFF`. 
+We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
 
 ##### Now, be aware!
  
