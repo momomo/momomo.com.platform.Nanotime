@@ -5,6 +5,23 @@
 
 ###### Allows for nanosecond time resolution when asking for time from Java Runtime in contrast with System.currentTimeMillis().`.
 
+##### Maven dependencies available on maven central [search.maven.org](https://search.maven.org/search?q=com.momomo)
+##### Dependency   
+```xml
+<dependency>
+  <groupId>com.momomo</groupId>
+  <artifactId>momomo.com.platform.Nanotime</artifactId>
+  <version>1.3.8</version>
+</dependency>                                                      
+```                         
+##### Repository
+```xml
+<repository>
+    <id>maven-central</id>
+    <url>http://repo1.maven.org/maven2</url>
+</repository>
+```
+
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
 What this implementation does is allow you to get a higher precision when asking for the time, with *nanosecond* precision.
@@ -21,34 +38,22 @@ When calibrating the two, our code will:
 
 We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
 
-Is this a *100% accurate* record of current time in nanos? Is there even **such a definition**? What is time? Even atomic clocks do not give a 100% accurate definition of time at any given moment.  
+##### Is this a *100% accurate* record of current time in nanos? 
+* Is there even **such a definition**? What is time?   
+Even atomic clocks do not give a 100% accurate definition of time at any given moment.  
 
 When we ask for `Time.nano()` we can expect some discrepancy, as even the cost of calling `System.nanoTime()` has a cost and in reality only represent a time in the past once given access to it.
 
-Rather it a higher precision one than `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff.  
+Rather it a higher precision one than `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff, and so will `Nano.time()`. 
 
-Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born, rather than when the JVM turned on. 
+Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame usually to when baby Jesus was born, rather than when the JVM turned on.
 
-Note, **recalibration** by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
+##### Recalibration 
+
+Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
 
 Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established1.
 
-#### Maven dependencies available on maven central [search.maven.org](https://search.maven.org/search?q=com.momomo)
-##### Dependency   
-```xml
-<dependency>
-  <groupId>com.momomo</groupId>
-  <artifactId>momomo.com.platform.Nanotime</artifactId>
-  <version>1.3.8</version>
-</dependency>                                                      
-```                         
-##### Repository
-```xml
-<repository>
-    <id>maven-central</id>
-    <url>http://repo1.maven.org/maven2</url>
-</repository>
-```                                 
 
 ##### Our other repositories
 
