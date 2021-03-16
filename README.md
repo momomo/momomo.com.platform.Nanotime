@@ -20,7 +20,9 @@
     <id>maven-central</id>
     <url>http://repo1.maven.org/maven2</url>
 </repository>
-```
+```                                                                          
+
+##### Background
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
