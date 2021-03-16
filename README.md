@@ -3,7 +3,7 @@
 
 ## momomo.com.platform.Nanotime
 
-###### Allows for nanosecond precision when asking for time from Java Runtime than standard `System.currentTimeMillis()`.
+###### Allows for nanosecond time resolution when asking for time from Java Runtime in contrast with System.currentTimeMillis().`.
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
