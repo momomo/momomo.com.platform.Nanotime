@@ -72,9 +72,9 @@ There's basically only one class, `Nanotime.java`, but we've provide another one
     This is just a class utilizing what should only ever be, one instance of Nanotime. 
  * [Nanotime.java](src/momomo/com/Nanotime.java)
  
-For normal use, you'd just call `Nano.time()`. Thats' it. 
+For normal use, you'd just call `Nano.time()`. Thats' it!
 
-To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version that is accessed separately.
+To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version ti be accessed separately.
 
 ### Sample run and results    
 
