@@ -32,7 +32,7 @@ Rather it a higher precision one than `System.currentTimeMillis()` as `System.cu
 Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born, rather than when the JVM turned on. 
 
 Note, **recalibration** by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
-Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every now and then to ensure we stay within proper bounds.
+Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established1.
 
 #### Maven dependencies available on maven central [search.maven.org](https://search.maven.org/search?q=com.momomo)
 ##### Dependency   
