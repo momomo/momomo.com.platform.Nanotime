@@ -93,7 +93,9 @@ public static void main(String[] args) throws InterruptedException {
 
 ##### Output
 
-```java
+```java                       
+// Output has been separated with a whitespace for readability.
+
 nanos : 1615923349193 929741
 millis: 1615923349194 
                       
