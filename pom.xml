@@ -24,11 +24,12 @@
     
     
     
+    
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>com.momomo</groupId>
     <artifactId>mmm.platform.Nanotime</artifactId>
-    <version>5.4.3.2.1.2020.03.11.1-SNAPSHOT</version>
+    <version>5.4.3.2.1.2020.03.14.1-SNAPSHOT</version>
     
     <packaging>jar</packaging>
     
@@ -278,10 +279,12 @@
     
     <dependency>
         <groupId>com.momomo</groupId>
-        <artifactId>mmm.platform.xy.lcd</artifactId>
-        <version>5.4.3.2.1.2020.03.11.1-SNAPSHOT</version>
+        <artifactId>mmm.platform.Lambda</artifactId>
+        <version>1.2.3</version>
     </dependency>
-
+    
+    
+    
 
     </dependencies>
     
@@ -352,7 +355,7 @@
     </developers>
     
     
-        <description>Allows for higher precision when asking for time from Java Runtime. Namely nanosecond precision.</description>
+        <description>Allows for higher time resolution when asking for time from Java Runtime with nanosecond near accuracy.</description>
     
     
     
