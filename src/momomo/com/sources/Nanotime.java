@@ -41,7 +41,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 package momomo.com.sources;
 
-import momomo.com.Ex;
 import momomo.com.Nano;
 import momomo.com.Randoms;
 import momomo.com.annotations.informative.Development;
@@ -51,32 +50,37 @@ import java.math.BigInteger;
 
 /**
  * Allows for nanosecond precision when asking for time from Java Runtime than standard System.currentTimeMillis.
+ * 
  * First, know that System.nanoTime() is elapsed nanos since an arbitrary origin, usually the start of the JVM and can usually only be used to measure elapsed time between two invocations.
  *
  * What this implementation does is allow you to get a higher precision when asking for the time, with nanosecond precision.
  *
  * Normally, you can get the time from your system using System.currentTimeMillis() with millisecond precision but when invoked twice right after each other, calls to System.currentTimeMillis() will usually return the same value.
  *
- * We provide nanosecond precision for a method similar to System.currentTimeMillis() by essentially calibrating System.nanoTime() which records nanos elapsed since JVM started with System.currentTimeMillis().
+ * This provides you with nanosecond precision for a method similar to System.currentTimeMillis() by essentially calibrating System.nanoTime() which records nanos elapsed since JVM started with System.currentTimeMillis().
  *
  * When calibrating the two, our code will:
  *
  * Ask System.currentTimeMillis() right after asking System.nanoTime(), in a one liner.
- * 1. We will record the difference between the two.
- * 2. Sleep a random amount of nano seconds.
- * 3. Repeat this process 1000 times.
+ *  1. We will record the difference between the two.
+ *  2. Sleep a random amount of nano seconds.
+ *  3. Repeat this process 1000 times.
+ *  
+ * We then take the average recorded difference and use this average to go from System.nanoTime() to a System.currentTimeMillis() by subtracting the average as a calculated DIFF.
+ *
+ * Is this a 100% accurate record of current time in nanos?
+ * Is there even such a definition? What is time? Even atomic clocks do not give a 100% accurate definition of time at any given moment.
  * 
- * We then take the average difference recorded difference and use this average to go from System.nanoTime() to a System.currentTimeMillis() and as well as subtracting the average and calculated DIFF.
+ * When we ask for Time.nano() we can expect some discrepancy, as even the cost of calling System.nanoTime() has a cost and in reality only represent a time in the past once given access to it.
  *
- * Now, be aware!
- * This is not a 100% accurate record of current time in nanos, if there ever could be such a definition as even atomic clocks do not give 100% accurate definition of time.
+ * Rather it a higher precision one than System.currentTimeMillis() as System.currentTimeMillis() will often prove useless when invoked tightly, while System.nanoTime() will show always show a diff, and so will Nano.time().
  *
- * Rather it a higher precision one than `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff.  
+ * Our code just calibrates the two and allows you to map System.nanoTime() to one based on a sane and constant reference frame usually to when baby Jesus was born, rather than when the JVM turned on.
+ * 
+ * Recalibration
+ * Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using Nano.setInstance( new Nanotime(...) ), but there is nothing to suggest a recalibration is required unless the underlying system specification differs drastically during runtime in where two calls to System.nanoTime() will diverge.
  *
- * Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born, rather than when the JVM turned on. 
- *
- * Note, **recalibration** by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
- * Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every now and then to ensure we stay within proper bounds.
+ * Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
  *
  * A sample test run on our example() code within will output the following, which also shows the rounding of System.currentTimeMillis fits extremely well within bounds.
  *
@@ -536,13 +540,11 @@ import java.math.BigInteger;
  * nanos : 1615923349194627354
  * millis: 1615923349195
  *
- * Guide
- * 
  * There's basically only one class, Nanotime.java, but we've provide another one due to API call looking better through Nano.time() since Nanotime.get() is not a static method.
  *
- * For normal use, you'd just call Nano.time(). Thats' it.
+ * For normal use, you'd just call Nano.time(). Thats' it!
  *
- * To configure Nanotime.java just call Nanotime.setInstance( new Nanotime() ) prior to any use of Nano.time(). You can also create your own instance version that is accessed separately.
+ * To configure Nanotime.java just call Nanotime.setInstance( new Nanotime() ) prior to any use of Nano.time(). You can also create your own instance version ti be accessed separately.
  * 
  * @see momomo.com.Nano#time()
  * @see Nanotime#setInstance(Nanotime)
