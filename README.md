@@ -57,11 +57,12 @@ So we take the average recorded difference and use this average to go from `Syst
 ##### Is this a *100% accurate* record of current time in nanos? 
 * Is there even **such a definition**? What is time?   
 Even atomic clocks do not give a 100% accurate definition of time at any given moment.   
-If recalibration is off, we gurantee you that two calls to `Time.nano()` will always return a diff equivalent to two calls to `System.nanoTime()` and always stay 100% linearly proportional to `System.nanoTime()`. 
+If recalibration is off, we gurantee you that two calls to `Time.nano()` will always return a diff equivalent to two calls to `System.nanoTime()` and always stay 
+100% linearly proportional to `System.nanoTime()`. 
 That means an size of the error, similar to the error in an atomic clock will always remain constant to the size of error `System.nanoTime()` over time.  
 
-It should be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` 
-will show always show a diff, and so will `Nano.time()`.  
+It should be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, 
+while `System.nanoTime()` will show always show a diff, and so will `Nano.time()`.  
 
 Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born 
 rather than when the JVM turned on.
