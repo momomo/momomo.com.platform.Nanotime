@@ -76,7 +76,7 @@ using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest*
 Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off 
 calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
 
-### Usage
+### Use
 
 There's basically only one class, `Nanotime.java`, but we've provide another one due to API call looking better through `Nano.time()` since `Nanotime.get()` is not a static method. 
  * [Nano.java](src/momomo/com/Nano.java) 
