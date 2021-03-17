@@ -96,18 +96,6 @@ public static void main(String[] args) throws InterruptedException {
 ```java                       
 // Output has been separated with a whitespace for readability.
 
-nanos : 1615923349193 929741
-millis: 1615923349194 
-                      
-nanos : 1615923349193 934170
-millis: 1615923349194 
-                      
-nanos : 1615923349193 938359
-millis: 1615923349194 
-                      
-nanos : 1615923349193 942637
-millis: 1615923349194 
-                      
 nanos : 1615923349193 947203
 millis: 1615923349194 
                       
@@ -553,7 +541,7 @@ nanos : 1615923349194 627354
 millis: 1615923349195 
 ```
 
-The thing to watch for is the rounding of nanos to millis, and when a rounding should occur.   
+Watch for the rounding of nanos to millis, and when a rounding should occur.   
 **Look at the switch** from `1615923349194` to `1615923349195` which we've repeated and commented below: 
 
 ```java
