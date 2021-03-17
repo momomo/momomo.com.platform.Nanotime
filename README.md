@@ -28,42 +28,52 @@
 Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of `Java` utility.
 
 * [`momomo.com.platform.Lambda`](https://github.com/momomo/momomo.com.platform.Lambda)  
-Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed and understood intuitive pattern.  
+Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed 
+and understood intuitive pattern.  
 `Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
 
 ### Info
 
-First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
+First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time 
+between two invocations. 
 
-What this implementation does is allow you to get a higher precision when asking for the time, with *nanosecond* precision.
+What this implementation does is provide you with a way of getting higher precision when asking for the time, with *nanosecond* precision.
 
-Normally, you can get the time from your system using `System.currentTimeMillis(`) with millisecond precision but when invoked twice right after each other, calls to `System.currentTimeMillis()` will usually return the same value. 
+Normally, you can get the time from your system using `System.currentTimeMillis(`) with millisecond precision but when invoked twice right after each other, calls 
+to `System.currentTimeMillis()` will usually return the same value.
 
-This provides you with nanosecond precision for a method similar to `System.currentTimeMillis()` by essentially calibrating `System.nanoTime()` which records nanos elapsed since JVM started with `System.currentTimeMillis()`.  
+This library provides you with nanosecond precision similar to `System.currentTimeMillis()` by essentially calibrating `System.nanoTime()` which records nanos 
+elapsed since JVM started with `System.currentTimeMillis()`.  
 
 When calibrating the two, our code will:  
    1. Ask `System.currentTimeMillis()` right after asking `System.nanoTime()`, in a one liner. 
    2. We will record the difference between the two. 
    3. `Sleep` a random amount of nano seconds. 
-   4. Repeat this process 1000 times.
+   4. Repeat this process 1000 times (cheap operation).
 
-We then take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
+The reason we repeast is that two calls two `System.nanoTime()` will never return a constant diff. 
+So we take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
 
 ##### Is this a *100% accurate* record of current time in nanos? 
 * Is there even **such a definition**? What is time?   
-Even atomic clocks do not give a 100% accurate definition of time at any given moment.  
+Even atomic clocks do not give a 100% accurate definition of time at any given moment.   
+If recalibration is off, we gurantee you that two calls to `Time.nano()` will always return a diff equivalent to two calls to `System.nanoTime()` and always stay 100% linearly proportional to `System.nanoTime()`. 
+That means an size of the error, similar to the error in an atomic clock will always remain constant to the size of error `System.nanoTime()` over time.  
 
-When we ask for `Time.nano()` we can expect some discrepancy, as even the cost of calling `System.nanoTime()` has a cost and in reality only represent a time in the past once given access to it.
+It should be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` 
+will show always show a diff, and so will `Nano.time()`.  
 
-Rather it a higher precision one than `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff, and so will `Nano.time()`. 
-
-Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame usually to when baby Jesus was born, rather than when the JVM turned on.
+Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born 
+rather than when the JVM turned on.
 
 ##### Recalibration 
 
-Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
+Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like 
+using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs
+ drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
 
-Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established1.
+Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off 
+calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
 
 ### Guide
 
