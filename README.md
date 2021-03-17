@@ -3,7 +3,7 @@
 
 ## momomo.com.platform.Nanotime
 
-###### Allows for nanosecond time resolution when asking for time from Java Runtime in contrast with System.currentTimeMillis().`.
+###### Allows for nanosecond time resolution when asking for time from Java Runtime in contrast with System.currentTimeMillis().
 
 ##### Maven dependencies available on maven central [search.maven.org](https://search.maven.org/search?q=com.momomo)
 ##### Dependency   
