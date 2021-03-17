@@ -29,7 +29,7 @@ Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `
 `Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
 
 * [momomo.com.platform.Core](https://github.com/momomo/momomo.com.platform.Lambda)  
-Is essentially what makes the Core of several of momomo.com's public releases and contains a bunch of `Java` utility.                                                                           
+Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of `Java` utility.                                                                           
 
 ### Info
 
