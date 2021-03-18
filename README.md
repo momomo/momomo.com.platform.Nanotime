@@ -32,7 +32,7 @@ Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `
 and understood intuitive pattern.  
 `Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
 
-### Info
+### Background
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time 
 between two invocations. 
@@ -76,7 +76,7 @@ using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest*
 Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off 
 calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
 
-### Use
+### Getting started
 
 There's basically only one class, `Nanotime.java`, but we've provide another one due to API call looking better through `Nano.time()` since `Nanotime.get()` is not a static method. 
  * [Nano.java](src/momomo/com/Nano.java) 
@@ -87,7 +87,7 @@ For normal use, you'd just call `Nano.time()`. Thats' it!
 
 To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version ti be accessed separately.
 
-### Sample run and results    
+#### Sample run and results    
 
 A sample test run on our example() code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
 
@@ -572,5 +572,5 @@ nanos : 1615923349194 507327
 millis: 1615923349195 
 ```
 
-#### Contribute
+### Contribute
 Send an email to `opensource{at}momomo.com` if you would like to contribute in any way, make changes or otherwise have thoughts and/or ideas on things to improve.
