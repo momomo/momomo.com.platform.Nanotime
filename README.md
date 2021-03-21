@@ -33,7 +33,7 @@ and understood intuitive pattern.
 `Lambda.V1E`, `Lambda.V2E`, `Lambda.R1E`, `Lambda.R2E` are used plenty in examples below.
 
 * [`momomo.com.platform.Return`](https://github.com/momomo/momomo.com.platform.Return)  
-A intuitive library that allows you to return multiple return values with defined types on the fly from any method rather than being limited to the default maximum of one.
+An intuitive library that allows you to return multiple return values with defined types on the fly from any method rather than being limited to the default maximum of one.
 
 ### Background
 
