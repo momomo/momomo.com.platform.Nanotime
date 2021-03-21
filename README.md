@@ -35,6 +35,9 @@ and understood intuitive pattern.
 * [`momomo.com.platform.Return`](https://github.com/momomo/momomo.com.platform.Return)  
 An intuitive library that allows you to return multiple return values with defined types on the fly from any method rather than being limited to the default maximum of one.
 
+* [`momomo.com.platform.db.transactional.Hibernate`](https://github.com/momomo/momomo.com.platform.db.transactional.Hibernate)  
+A library to execute database command in transactions without having to use annotations based on Hibernate libraries. No Spring!
+
 ### Background
 
 First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time 
