@@ -11,7 +11,7 @@
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.Nanotime</artifactId>
-  <version>1.3.9</version>
+  <version>1.4.0</version>
 </dependency>                                                      
 ```                         
 ##### Repository
