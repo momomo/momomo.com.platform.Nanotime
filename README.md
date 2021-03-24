@@ -105,7 +105,7 @@ nanos  0  : 161661528738 0999951
 millis 0  : 161661528738 1
 nanos  1  : 161661528738 1000000
 diff      : 0
---------------------------------------------------
+------------------------------------------------
 ```
 
 From `0999951` to `1000000` is only `49ns` right? We were at `380`, and then we got to `381000000` blank. All within `49ns` ns, correct?  
@@ -117,7 +117,7 @@ Again, ** this is the same iteration!**
 `System.nanoTime()` minus constant `DIFF` that we've calculated once and is `final`. We should get a linear behaviour!    
 
 ```java                    
---------------------- LARGE ----------------------
+--------------------- LARGE --------------------
 index    : 93413
 nanos  0 : 161661528738 5999263
 millis 0 : 161661528738 5
@@ -129,7 +129,7 @@ nanos  0 : 161661528738 5999568
 millis 0 : 161661528738 6
 nanos  1 : 161661528738 5999663
 diff     : 432 
---------------------------------------------------
+------------------------------------------------
 ```                            
 
 First on `index 93413` we can see all at `38 5` still. Then on `index 93414` we see that at least `568ns - 363ns = 205ns` has elapsed. `millis 0` has flipped to `38 6`, and when we `Nano.time()` right after we are still at `85`. Remember, before we we able to creep up to to the ms down to `49ns`, and so when we we now move `663ns - 568ns = 95ns` we should have expected at least a flip on `nano 1`. 
