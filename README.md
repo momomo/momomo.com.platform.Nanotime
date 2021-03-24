@@ -179,7 +179,78 @@ A sample test run on our example code within will output the following, which al
 
 You can [view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true). Just scroll through it and try to detect and expect the flips to occur.  
 
-Here are some highlights from a different smaller sample run that analyzes the similar data found in that file 
+Some random highlights from that file:
+
+```java
+index  : 599
+nanos  : 1616615287358999285
+millis : 1616615287358
+nanos  : 1616615287358999394
+nanos  : 1616615287358999450
+millis : 1616615287358
+
+
+index  : 600
+nanos  : 1616615287358999611
+millis : 1616615287358
+nanos  : 1616615287358999713
+nanos  : 1616615287358999762
+millis : 1616615287359
+
+
+index  : 601
+nanos  : 1616615287358999926
+millis : 1616615287359
+nanos  : 1616615287359000035
+nanos  : 1616615287359000090
+millis : 1616615287359
+
+
+index  : 602
+nanos  : 1616615287359000251
+millis : 1616615287359
+nanos  : 1616615287359000355
+nanos  : 1616615287359000405
+millis : 1616615287359           
+
+
+...
+
+
+index  : 50415
+nanos  : 1616615287375999320
+millis : 1616615287375
+nanos  : 1616615287375999409
+nanos  : 1616615287375999454
+millis : 1616615287375
+
+
+index  : 50416
+nanos  : 1616615287375999605
+millis : 1616615287375
+nanos  : 1616615287375999694
+nanos  : 1616615287375999739
+millis : 1616615287376
+
+
+index  : 50417
+nanos  : 1616615287375999904
+millis : 1616615287376
+nanos  : 1616615287375999992
+nanos  : 1616615287376000038
+millis : 1616615287376
+
+
+index  : 50418
+nanos  : 1616615287376000188
+millis : 1616615287376
+nanos  : 1616615287376000277
+nanos  : 1616615287376000322
+millis : 1616615287376
+```
+ 
+Here are some highlights from a different smaller sample run that analyzes data similar found in the file where we calculate min and max diffs from what we expect at switches.   
+
 
 ```java
 ---------------------- LARGE --------------------
