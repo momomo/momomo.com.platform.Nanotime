@@ -175,11 +175,64 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 
 #### Sample run and results    
 
-A sample test run on our example code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
+A sample test run on our example code within will output the following, which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
-You can [view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)  
+You can [view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true). Just scroll through it and try to detect and expect the flips to occur.  
 
+Here are some highlights from a different smaller sample run that analyzes the similar data found in that file 
 
+```java
+---------------------- LARGE --------------------
+index     : 29917
+nanos  0  : 1616623610040999916
+millis 0  : 1616623610041
+nanos  1  : 1616623610041000009
+nanos  2  : 1616623610041000054
+millis 1  : 1616623610041
+nano cost : 45
+diff      : 9
+--------------------------------------------------
+
+---------------------- SMALL --------------------
+index     : 41948
+nanos  0  : 1616623610044999909
+millis 0  : 1616623610045
+nanos  1  : 1616623610045000000
+nanos  2  : 1616623610045000047
+millis 1  : 1616623610045
+nano cost : 47
+diff      : 0
+--------------------------------------------------
+
+---------------------- LARGE --------------------
+index     : 74341
+nanos  0  : 1616623610053999918
+millis 0  : 1616623610054
+nanos  1  : 1616623610053999969
+nanos  2  : 1616623610053999996
+millis 1  : 1616623610054
+nano cost : 27
+diff      : 31
+--------------------------------------------------
+
+---------------------- LARGE --------------------
+index     : 79042
+nanos  0  : 1616623610054999874
+millis 0  : 1616623610055
+nanos  1  : 1616623610054999926
+nanos  2  : 1616623610054999953
+millis 1  : 1616623610055
+nano cost : 27
+diff      : 74
+--------------------------------------------------
+```
+
+```java
+=========================================
+Smallest: 0.0
+Largest : 74.0
+=========================================
+```
 
 ### Contribute
 Send an email to `opensource{at}momomo.com` if you would like to contribute in any way, make changes or otherwise have thoughts and/or ideas on things to improve.
