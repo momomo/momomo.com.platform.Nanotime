@@ -73,7 +73,7 @@ Likely we would need a better clock to use to compare it to than `System.currenT
    
 #### Proving number 2
 
-Take this as an example, where `Nano.time()` is called first, with `System.currentTimeMillis()` directly after, and then `Nano.time()` directly after.
+Take this as an example, where `Nano.time()` is called first, with `System.currentTimeMillis()` directly after, and then `Nano.time()` again once more after.
 
 ```java
 // Can you do help us do this in a quicker way? 
