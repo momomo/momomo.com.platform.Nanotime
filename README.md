@@ -48,39 +48,118 @@ What this implementation does is provide you with a way of getting higher precis
 Normally, you can get the time from your system using `System.currentTimeMillis(`) with millisecond precision but when invoked twice right after each other, calls 
 to `System.currentTimeMillis()` will usually return the same value.
 
-This library provides you with nanosecond precision similar to `System.currentTimeMillis()` by essentially calibrating `System.nanoTime()` which records nanos 
-elapsed since JVM started with `System.currentTimeMillis()`.  
+This library provides you with nanosecond precision similar to `System.currentTimeMillis()` by calibrating `System.nanoTime()` with `System.currentTimeMillis()`.  
 
 When calibrating the two, our code will:  
-   1. Ask `System.currentTimeMillis()` right after asking `System.nanoTime()`, in a one liner. 
-   2. We will record the difference between the two. 
-   3. `Sleep` a random amount of nano seconds. 
-   4. Repeat this process 1000 times (cheap operation).
+   1. Ask `System.currentTimeMillis()` as quickly as we can, until we detect a the `1ms` flip.
+   2. Once detected, we ask `System.nanoTime()` what time it has.   
+   3. Record the difference between the two. 
+   4. Repeat this process `100` times (cheap operation), which tests have found is reasonably. 
+   5. Also, we subtract the cost of operation `System.nanoTime()` slightly past `System.currentTimeMillis()` which is usually around `30ns` but we calculate once we detect a flip.
 
-The reason we repeast is that two calls two `System.nanoTime()` will never return a constant diff. 
-So we take the average recorded difference and use this average to go from `System.nanoTime()` to a `System.currentTimeMillis()` by subtracting the average as a calculated `DIFF`. 
+The total time for the calibration for 100 times, is as you guessed it, around `100ms` since we are waiting for 100 flips to occur.
 
 ##### Is this a *100% accurate* record of current time in nanos? 
-* Is there even **such a definition**? What is time?   
-Even atomic clocks do not give a 100% accurate definition of time at any given moment.   
-If recalibration is off, we gurantee you that two calls to `Time.nano()` will always return a diff equivalent to two calls to `System.nanoTime()` and always stay 
-100% linearly proportional to `System.nanoTime()`. 
-That means an size of the error, similar to the error in an atomic clock will always remain constant to the size of error `System.nanoTime()` over time.  
+* No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
 
-It should be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, 
-while `System.nanoTime()` will show always show a diff, and so will `Nano.time()`.  
+Measuring the error size is possible but very difficult. 
+   1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
+   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take 30ns between each, and at times 0.4ms.  
+        Yes, the JVM sometimes generates big diffs when we compare but when we look at the numbers we see that the time between `first` and `third` might be very large, which is outside of our control.
+   3. `System.currentTimeMillis()` is not reliable to compare to in the first place. See below as an example. 
+   4. Acccuracy depends much on your computers ability to calibrate better. A slow computer is likely to yield worse results.
+   
+Likely we would need a better clock to use to compare it to than `System.currenTimeMillis()`. Read more on    
+   
+#### Proving number 2
 
-Our code just calibrates the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame, usually to when baby Jesus was born 
-rather than when the JVM turned on.
+Take this as an example, where `Nano.time()` is called first, with `System.currentTimeMillis()` directly after, and then `Nano.time()` directly after.
 
-##### Recalibration 
+```java
+// Can you do help us do this in a quicker way? 
+array[i] = new Long[]{ Nano.time(), System.currentTimeMillis(), Nano.time() };
+``` 
 
-Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like 
-using `Nano.setInstance( new Nanotime(...) )`, but there is *nothing to suggest* a recalibration is required unless the *underlying system specification* differs
- drastically during runtime in where two calls to `System.nanoTime()` will diverge. 
+```java
+nanos  0  : 161661301453 6997599
+millis 0  : 161661301453 7
+nanos  1  : 161661301453 7003893
+```
+                                                                                                                                                                  
+This would show an error size of `2401ns` and `3893ns`. Yet what we can see is that we are both before and after and that the cost of calling `Nano.time()` from the preceeding `System.currentTimeMillis()` is a bit too large for us to make any real determination, but when we look at `all three`, we can see we are in the money.
 
-Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off 
-calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
+#### Proving number 3
+
+When we repeat the above code enough times, say a `1000 000` times, we can calculate the `largest diff` and the `smallest diff` around a switch. We look for the last `ms` and when it changes we compare `millis 0` currently to the next `Nano.time()` call `nanos 1`, not the previous one `nanos 0`.     
+
+What we've seen is that we can get **smallest diff** down to `0ns` or `1ns` given enough iterations. **Zero**. 
+
+The **largest diff** as we already showed in *Proving number 2* is not reliable to use for making a determination. 
+
+Here is two other examples genereated from the **exact** same test run of a `1000 000` generated. We've added the first `100 000 numbers` as a file for you to review (15mb).    
+
+```java
+--------------------- SMALL --------------------
+index     : 68095
+nanos  0  : 161661528738 0999951
+millis 0  : 161661528738 1
+nanos  1  : 161661528738 1000000
+diff      : 0
+--------------------------------------------------
+```
+
+From `0999951` to `1000000` is only `49ns` right? We were at `380`, and then we got to `381000000` blank. All within `49ns` ns, correct?  
+
+Now, let us look at **the largest** with the previous row added right before to see where we were before. 
+
+Again, ** this is the same iteration!** 
+
+`System.nanoTime()` minus constant `DIFF` that we've calculated once and is `final`. We should get a linear behaviour!    
+
+```java                    
+--------------------- LARGE ----------------------
+index    : 93413
+nanos  0 : 161661528738 5999263
+millis 0 : 161661528738 5
+nanos  1 : 161661528738 5999363
+diff     : -
+
+index    : 93414
+nanos  0 : 161661528738 5999568
+millis 0 : 161661528738 6
+nanos  1 : 161661528738 5999663
+diff     : 432 
+--------------------------------------------------
+```                            
+
+First on `index 93413` we can see all at `38 5` still. Then on `index 93414` we see that at least `568ns - 363ns = 205ns` has elapsed. `millis 0` has flipped to `38 6`, and when we `Nano.time()` right after we are still at `85`. Remember, before we we able to creep up to to the ms down to `49ns`, and so when we we now move `663ns - 568ns = 95ns` we should have expected at least a flip on `nano 1`. 
+ 
+If we got the error size down to max `49ns` before how could `95ns` elapse and get a flip of the `millis`? 
+
+Question: If we plot `System.nanoTime()` over time, will we get a `100%` perfectly linear graph? If we do so for `System.currentTimeMillis()`, do we as well? One of the two is not 100% `linear`. Thats for sure! 
+
+In truth, `System.currentTimeMillis()` can not be consistent against `System.nanoTime()` and will not flip a `ms` on the exact `1000 00`0ns because it is only millisecond precision and **we can not expect it to time** a `nanosecond` precisely.     
+
+It should be highlighted that once calibrated our reference point stays constant, always remains the same, and never changes. That means you have the ability to issue `System.nanoTime()` yet have it refer to a time ***very very*** close to `System.currentTimeMillis()`.
+
+
+##### Java API actually has info on the accuracy so our proofs where not required 
+
+In fact we can read in the Java API of the accuracy of [System.currentTimeMillis()](https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/System.html#currentTimeMillis()) where we find: 
+
+> Note that while the unit of time of the return value is a millisecond, the **granularity** of the value depends on the underlying operating system and may be larger. For example, many operating systems measure time in units of **tens of milliseconds**.
+
+That means an error size of up to `100 0000ns * 0.1 = 100 000ns` which means a millisecond might be reported earlier or later of up to `0.1 milliseconds` off. 
+
+This is what we've noticed in our generated data as well but rarely to those extremes but when we generate 100 million data points we could see larger discrepancies occur!
+
+##### Final comments
+  
+For us, what is most important is not being as close to any `System.currentTimeMillis()` as possible, always but just to get close enough to an average of them, and do note, an average is better than being close to one due to the error margin inherit in `System.currentTimeMillis()` already discussed.
+
+It should only be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff and now so will `Nano.time()`.  
+
+Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
 
 ### Getting started
 
@@ -95,488 +174,11 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 
 #### Sample run and results    
 
-A sample test run on our example() code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
+A sample test run on our example code within will output the following, which also shows the **rounding** of `System.currentTimeMillis` **fits extremely well** within bounds.
 
-```java
-public static void main(String[] args) throws InterruptedException {
-    int i = -1; while (++i < 10000) {
-        System.out.println(
-            "nanos : " + Nano.time()                + "\n" +
-            "millis: " + System.currentTimeMillis() + "\n"  
-        );
-    }
-}
-```                         
+You can [view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)  
 
-##### Output
 
-```java                       
-// Output has been separated with a whitespace for readability.
-
-nanos : 1615923349193 947203
-millis: 1615923349194 
-                      
-nanos : 1615923349193 951495
-millis: 1615923349194 
-                      
-nanos : 1615923349193 955582
-millis: 1615923349194 
-                      
-nanos : 1615923349193 959922
-millis: 1615923349194 
-                      
-nanos : 1615923349193 964834
-millis: 1615923349194 
-                      
-nanos : 1615923349193 969360
-millis: 1615923349194 
-                      
-nanos : 1615923349193 973703
-millis: 1615923349194 
-                      
-nanos : 1615923349193 977802
-millis: 1615923349194 
-                      
-nanos : 1615923349193 981898
-millis: 1615923349194 
-                      
-nanos : 1615923349193 985985
-millis: 1615923349194 
-                      
-nanos : 1615923349193 997998
-millis: 1615923349194 
-                      
-nanos : 1615923349194 002532
-millis: 1615923349194 
-                      
-nanos : 1615923349194 006594
-millis: 1615923349194 
-                      
-nanos : 1615923349194 010553
-millis: 1615923349194 
-                      
-nanos : 1615923349194 014653
-millis: 1615923349194 
-                      
-nanos : 1615923349194 018949
-millis: 1615923349194 
-                      
-nanos : 1615923349194 023036
-millis: 1615923349194 
-                      
-nanos : 1615923349194 026981
-millis: 1615923349194 
-                      
-nanos : 1615923349194 030927
-millis: 1615923349194 
-                      
-nanos : 1615923349194 034796
-millis: 1615923349194 
-                      
-nanos : 1615923349194 038682
-millis: 1615923349194 
-                      
-nanos : 1615923349194 042481
-millis: 1615923349194 
-                      
-nanos : 1615923349194 046424
-millis: 1615923349194 
-                      
-nanos : 1615923349194 053093
-millis: 1615923349194 
-                      
-nanos : 1615923349194 057724
-millis: 1615923349194 
-                      
-nanos : 1615923349194 066775
-millis: 1615923349194 
-                      
-nanos : 1615923349194 070955
-millis: 1615923349194 
-                      
-nanos : 1615923349194 074774
-millis: 1615923349194 
-                      
-nanos : 1615923349194 078624
-millis: 1615923349194 
-                      
-nanos : 1615923349194 082430
-millis: 1615923349194 
-                      
-nanos : 1615923349194 086182
-millis: 1615923349194 
-                      
-nanos : 1615923349194 089974
-millis: 1615923349194 
-                      
-nanos : 1615923349194 093682
-millis: 1615923349194 
-                      
-nanos : 1615923349194 097517
-millis: 1615923349194 
-                      
-nanos : 1615923349194 101248
-millis: 1615923349194 
-                      
-nanos : 1615923349194 104905
-millis: 1615923349194 
-                      
-nanos : 1615923349194 108519
-millis: 1615923349194 
-                      
-nanos : 1615923349194 112192
-millis: 1615923349194 
-                      
-nanos : 1615923349194 115964
-millis: 1615923349194 
-                      
-nanos : 1615923349194 119628
-millis: 1615923349194 
-                      
-nanos : 1615923349194 123365
-millis: 1615923349194 
-                      
-nanos : 1615923349194 127011
-millis: 1615923349194 
-                      
-nanos : 1615923349194 130613
-millis: 1615923349194 
-                      
-nanos : 1615923349194 134200
-millis: 1615923349194 
-                      
-nanos : 1615923349194 141768
-millis: 1615923349194 
-                      
-nanos : 1615923349194 145892
-millis: 1615923349194 
-                      
-nanos : 1615923349194 149433
-millis: 1615923349194 
-                      
-nanos : 1615923349194 153161
-millis: 1615923349194 
-                      
-nanos : 1615923349194 156589
-millis: 1615923349194 
-                      
-nanos : 1615923349194 162622
-millis: 1615923349194 
-                      
-nanos : 1615923349194 168581
-millis: 1615923349194 
-                      
-nanos : 1615923349194 172236
-millis: 1615923349194 
-                      
-nanos : 1615923349194 175626
-millis: 1615923349194 
-                      
-nanos : 1615923349194 179389
-millis: 1615923349194 
-                      
-nanos : 1615923349194 182917
-millis: 1615923349194 
-                      
-nanos : 1615923349194 186372
-millis: 1615923349194 
-                      
-nanos : 1615923349194 189967
-millis: 1615923349194 
-                      
-nanos : 1615923349194 193367
-millis: 1615923349194 
-                      
-nanos : 1615923349194 196832
-millis: 1615923349194 
-                      
-nanos : 1615923349194 200237
-millis: 1615923349194 
-                      
-nanos : 1615923349194 203702
-millis: 1615923349194 
-                      
-nanos : 1615923349194 207009
-millis: 1615923349194 
-                      
-nanos : 1615923349194 210414
-millis: 1615923349194 
-                      
-nanos : 1615923349194 213719
-millis: 1615923349194 
-                      
-nanos : 1615923349194 217193
-millis: 1615923349194 
-                      
-nanos : 1615923349194 220550
-millis: 1615923349194 
-                      
-nanos : 1615923349194 230263
-millis: 1615923349194 
-                      
-nanos : 1615923349194 234302
-millis: 1615923349194 
-                      
-nanos : 1615923349194 237753
-millis: 1615923349194 
-                      
-nanos : 1615923349194 241103
-millis: 1615923349194 
-                      
-nanos : 1615923349194 244411
-millis: 1615923349194 
-                      
-nanos : 1615923349194 248085
-millis: 1615923349194 
-                      
-nanos : 1615923349194 251494
-millis: 1615923349194 
-                      
-nanos : 1615923349194 254901
-millis: 1615923349194 
-                      
-nanos : 1615923349194 258334
-millis: 1615923349194 
-                      
-nanos : 1615923349194 261686
-millis: 1615923349194 
-                      
-nanos : 1615923349194 265102
-millis: 1615923349194 
-                      
-nanos : 1615923349194 270140
-millis: 1615923349194 
-                      
-nanos : 1615923349194 273647
-millis: 1615923349194 
-                      
-nanos : 1615923349194 276954
-millis: 1615923349194 
-                      
-nanos : 1615923349194 280302
-millis: 1615923349194 
-                      
-nanos : 1615923349194 283599
-millis: 1615923349194 
-                      
-nanos : 1615923349194 286869
-millis: 1615923349194 
-                      
-nanos : 1615923349194 290073
-millis: 1615923349194 
-                      
-nanos : 1615923349194 293356
-millis: 1615923349194 
-                      
-nanos : 1615923349194 296697
-millis: 1615923349194 
-                      
-nanos : 1615923349194 300223
-millis: 1615923349194 
-                      
-nanos : 1615923349194 303511
-millis: 1615923349194 
-                      
-nanos : 1615923349194 306848
-millis: 1615923349194 
-                      
-nanos : 1615923349194 310156
-millis: 1615923349194 
-                      
-nanos : 1615923349194 313698
-millis: 1615923349194 
-                      
-nanos : 1615923349194 321384
-millis: 1615923349194 
-                      
-nanos : 1615923349194 325691
-millis: 1615923349194 
-                      
-nanos : 1615923349194 329315
-millis: 1615923349194 
-                      
-nanos : 1615923349194 332879
-millis: 1615923349194 
-                      
-nanos : 1615923349194 430337
-millis: 1615923349194 
-                      
-nanos : 1615923349194 442848
-millis: 1615923349194 
-                      
-nanos : 1615923349194 459099
-millis: 1615923349194 
-                      
-nanos : 1615923349194 463835
-millis: 1615923349194 
-                      
-nanos : 1615923349194 467404
-millis: 1615923349194 
-                      
-nanos : 1615923349194 470742
-millis: 1615923349194 
-                      
-nanos : 1615923349194 473903
-millis: 1615923349194 
-                      
-nanos : 1615923349194 477105
-millis: 1615923349194 
-                      
-nanos : 1615923349194 480254
-millis: 1615923349194 
-                      
-nanos : 1615923349194 485776
-millis: 1615923349194 
-                      
-nanos : 1615923349194 489077
-millis: 1615923349194 
-                      
-nanos : 1615923349194 492230
-millis: 1615923349194 
-                      
-nanos : 1615923349194 495482
-millis: 1615923349194 
-                      
-nanos : 1615923349194 498592
-millis: 1615923349194 
-                      
-nanos : 1615923349194 501727
-millis: 1615923349195 
-                      
-nanos : 1615923349194 507327
-millis: 1615923349195 
-                      
-nanos : 1615923349194 510682
-millis: 1615923349195 
-                      
-nanos : 1615923349194 513826
-millis: 1615923349195 
-                      
-nanos : 1615923349194 516978
-millis: 1615923349195 
-                      
-nanos : 1615923349194 520035
-millis: 1615923349195 
-                      
-nanos : 1615923349194 523269
-millis: 1615923349195 
-                      
-nanos : 1615923349194 526284
-millis: 1615923349195 
-                      
-nanos : 1615923349194 529279
-millis: 1615923349195 
-                      
-nanos : 1615923349194 532327
-millis: 1615923349195 
-                      
-nanos : 1615923349194 535289
-millis: 1615923349195 
-                      
-nanos : 1615923349194 538170
-millis: 1615923349195 
-                      
-nanos : 1615923349194 541206
-millis: 1615923349195 
-                      
-nanos : 1615923349194 545420
-millis: 1615923349195 
-                      
-nanos : 1615923349194 548475
-millis: 1615923349195 
-                      
-nanos : 1615923349194 551827
-millis: 1615923349195 
-                      
-nanos : 1615923349194 554858
-millis: 1615923349195 
-                      
-nanos : 1615923349194 557828
-millis: 1615923349195 
-                      
-nanos : 1615923349194 560675
-millis: 1615923349195 
-                      
-nanos : 1615923349194 563661
-millis: 1615923349195 
-                      
-nanos : 1615923349194 566741
-millis: 1615923349195 
-                      
-nanos : 1615923349194 569751
-millis: 1615923349195 
-                      
-nanos : 1615923349194 574834
-millis: 1615923349195 
-                      
-nanos : 1615923349194 578005
-millis: 1615923349195 
-                      
-nanos : 1615923349194 581069
-millis: 1615923349195 
-                      
-nanos : 1615923349194 584748
-millis: 1615923349195 
-                      
-nanos : 1615923349194 589969
-millis: 1615923349195 
-                      
-nanos : 1615923349194 593559
-millis: 1615923349195 
-                      
-nanos : 1615923349194 596462
-millis: 1615923349195 
-                      
-nanos : 1615923349194 599484
-millis: 1615923349195 
-                      
-nanos : 1615923349194 602443
-millis: 1615923349195 
-                      
-nanos : 1615923349194 605288
-millis: 1615923349195 
-                      
-nanos : 1615923349194 608029
-millis: 1615923349195 
-                      
-nanos : 1615923349194 610894
-millis: 1615923349195 
-                      
-nanos : 1615923349194 613785
-millis: 1615923349195 
-                      
-nanos : 1615923349194 617042
-millis: 1615923349195 
-                      
-nanos : 1615923349194 620452
-millis: 1615923349195 
-                      
-nanos : 1615923349194 623519
-millis: 1615923349195 
-                      
-nanos : 1615923349194 627354
-millis: 1615923349195 
-```
-
-Watch for the rounding of nanos to millis, and when a rounding should occur.   
-**Look at the switch** from `1615923349194` to `1615923349195` which we've repeated and commented below: 
-
-```java
-nanos : 1615923349194 492230
-millis: 1615923349194 
-                      
-nanos : 1615923349194 495482
-millis: 1615923349194 
-                      
-nanos : 1615923349194 498592     // ..944. We are getting close to an expected 95, will it come?
-millis: 1615923349194            // ..94
-                      
-nanos : 1615923349194 501727     // ..945. 945 when rounding should become. You guessed it. 95. 
-millis: 1615923349195            // ..95
-                      
-nanos : 1615923349194 507327
-millis: 1615923349195 
-```
 
 ### Contribute
 Send an email to `opensource{at}momomo.com` if you would like to contribute in any way, make changes or otherwise have thoughts and/or ideas on things to improve.
