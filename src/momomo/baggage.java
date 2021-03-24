@@ -19,4 +19,4 @@ package momomo;
  *
  * @author Joseph S.
  **/
-final class baggage { private baggage(){} }
+public final class baggage { private baggage(){} }
