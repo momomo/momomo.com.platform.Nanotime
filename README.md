@@ -64,9 +64,8 @@ The total time for the calibration for 100 times, is as you guessed it, around `
 
 Measuring the error size is possible but very difficult. 
    1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
-   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take 30ns between each, and at times 0.4ms.  
-        Yes, the JVM sometimes generates big diffs when we compare but when we look at the numbers we see that the time between `first` and `third` might be very large, which is outside of our control.
-   3. `System.currentTimeMillis()` is not reliable to compare to in the first place. See below as an example. 
+   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take `30ns` between each, and at times 0.4ms. The JVM sometimes generates big diffs between calls at times, and when we compare the numbers the difference might be very large between two calls despite the min being as close as `30ns`.  
+   3. `System.currentTimeMillis()` is not reliable to compare to in the first place. See proofs below.  
    4. Acccuracy depends much on your computers ability to calibrate better. A slow computer is likely to yield worse results.
    
 Likely we would need a better clock to use to compare it to than `System.currenTimeMillis()`. Read more on    
