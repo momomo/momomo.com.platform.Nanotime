@@ -87,6 +87,8 @@ nanos  1  : 161661301453 7003893
                                                                                                                                                                   
 This would show an error size of `2401ns` and `3893ns`. Yet what we can see is that we are both before and after and that the cost of calling `Nano.time()` from the preceeding `System.currentTimeMillis()` is a bit too large for us to make any real determination, but when we look at `all three`, we can see we are in the money.
 
+But the diff between the calls are `~3000ns` at times. And sometimes much much more! 
+
 #### Proving number 3
 
 When we repeat the above code enough times, say a `1000 000` times, we can calculate the `largest diff` and the `smallest diff` around a switch. We look for the last `ms` and when it changes we compare `millis 0` currently to the next `Nano.time()` call `nanos 1`, not the previous one `nanos 0`.     
