@@ -249,7 +249,7 @@ nanos  : 1616615287376000322
 millis : 1616615287376
 ```
  
-Here are some highlights from a different smaller sample run that analyzes data similar found in the file where we calculate min and max diffs from what we expect at switches.   
+Here are some highlights from a different smaller sample run that analyzes data similar found in the file where we calculate min and max diffs from what we expect at switches. Calculation is not perfect and actually quite complex to get right.   
 
 
 ```java
