@@ -65,8 +65,5 @@ public final class Nano { private Nano(){}
     public static Timestamp timestamp() {
         return Nanotime.getInstance().timestamp();
     }
-    
-    public static void main(String[] args) {
-        System.out.println(Nano.timestamp());
-    }
 }
+    

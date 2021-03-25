@@ -100,15 +100,17 @@ public class Nanotime {
         return System.nanoTime() + diff;
     }
     
+    /**
+     * Returns higher time precision than System.currentTimeMillis() as a java.sql.Timestamp
+     */
     public Timestamp timestamp() {
-        long all    = get();
-        long millis = TimeUnit.NANOSECONDS.toMillis(all);
-        int nanos   = (int) (all - TimeUnit.MILLISECONDS.toNanos(millis));
+        long      now       = get();
+        long      seconds   = TimeUnit.NANOSECONDS.toSeconds(now);
+        Timestamp timestamp = new Timestamp(TimeUnit.SECONDS.toMillis(seconds));
         
-        Timestamp stamp = new Timestamp(millis);
-        stamp.setNanos(nanos);
+        timestamp.setNanos((int) (now - TimeUnit.SECONDS.toNanos(seconds)));
         
-        return stamp;
+        return timestamp;
     }
     
     /////////////////////////////////////////////////////////////////////

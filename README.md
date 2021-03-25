@@ -63,18 +63,22 @@ The total time for the calibration for 100 times, is as you guessed it, around `
 
 There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano.time()` since `Nanotime.get()` and `Nanotime.timestamp()` are not static methods.
  
- * [Nano.java](src/momomo/com/Nano.java) 
-    This is just a class utilizing what should only ever be, one instance of Nanotime.
+ * [Nano.java](src/momomo/com/Nano.java)   
+    This is just a class utilizing what should only ever be, one instance of `Nanotime`.
     
-    We have two static methods, `Nano.time()` and `Nano.timestamp()` where the latter will return a `java.sql.Timestamp` which has built in support for nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance including the nano bits. 
-    
-       
+    We have two static methods here currently 
+    `Nano.time()` that returns a long `Nano.timestamp()` that returns a `java.sql.Timestamp` which has **built in support** for setting nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance  **including the nano bits**. 
        
  * [Nanotime.java](src/momomo/com/Nanotime.java)
+    Is an instance class  with mainly two methods, `get()` and `timestamp()`. Used by `Nano.time()` and `Nano.timestamp()`.
  
-For normal use, you'd just call `Nano.time()`. Thats' it!
+For normal use, you'd just call `Nano.time()` or `Nano.timestamp()`. 
 
-To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version ti be accessed separately.
+Thats' it!
+
+### Configuration
+
+To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance that can be accessed separately. 
 
 ### How accurate is this?  
 * Is this a *100% accurate* record of current time in nanos? No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
