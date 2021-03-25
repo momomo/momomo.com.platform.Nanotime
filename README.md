@@ -134,7 +134,7 @@ From `0999951` to `1000000` is only `49ns` right? We were at `380`, and then we 
 
 Now, let us look at **the largest** with the previous row added right before to see where we were before. 
 
-Again, ** this is the same iteration!** 
+Again, **this is the same iteration!** 
 
 `System.nanoTime()` minus constant `DIFF` that we've calculated once and is `final`. We should get a linear behaviour!    
 
