@@ -85,11 +85,11 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 
 Measuring the error size is possible but very difficult. 
    1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
-   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take `30ns` between each, and at times 0.4ms. The JVM sometimes generates big diffs between calls at times, and when we compare the numbers the difference might be very large between two calls despite the min being as close as `30ns`.  
+   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take `30ns` between each, and at times a wopping `0.4ms`. The JVM sometimes generates big diffs between calls at times and when we compare the numbers the difference might be very large between two calls despite the min being as close as `30ns`.  
    3. `System.currentTimeMillis()` is not reliable to compare to in the first place. See proofs below.  
    4. Acccuracy depends much on your computers ability to calibrate better. A slow computer is likely to yield worse results.
    
-Likely we would need a better clock to use to compare it to than `System.currenTimeMillis()`. Read more on    
+Likely we would need a better clock to use to compare it to than `System.currenTimeMillis()`.    
    
 #### Proving number 2
 
@@ -106,7 +106,7 @@ millis 0  : 161661301453 7
 nanos  1  : 161661301453 7003893
 ```
                                                                                                                                                                   
-This would show an error size of `2401ns` and `3893ns`. Yet what we can see is that we are both before and after and that the cost of calling `Nano.time()` from the preceeding `System.currentTimeMillis()` is a bit too large for us to make any real determination, but when we look at `all three`, we can see we are in the money.
+This would show an error size of `2401ns` and `3893ns`. Yet what we can see is that we are both before and after and that the cost of calling `Nano.time()` from the preceeding `System.currentTimeMillis()` is a bit too large for us to make any real determination, but when we look at `all three`, we can see that ***we are in the money***.
 
 But the diff between the calls are `~3000ns` at times. And sometimes much much more! 
 
