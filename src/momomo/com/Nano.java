@@ -63,6 +63,10 @@ public final class Nano { private Nano(){}
      * Returns higher time precision than System.currentTimeMillis() in nano seconds, sets and returns a Timestamp which has support for nanosecond resolution
      */
     public static Timestamp timestamp() {
-        return Nanotime.getInstance().stamp();
+        return Nanotime.getInstance().timestamp();
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(Nano.timestamp());
     }
 }

@@ -59,8 +59,25 @@ When calibrating the two, our code will:
 
 The total time for the calibration for 100 times, is as you guessed it, around `100ms` since we are waiting for 100 flips to occur.
 
-##### Is this a *100% accurate* record of current time in nanos? 
-* No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
+### Getting started
+
+There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano.time()` since `Nanotime.get()` and `Nanotime.timestamp()` are not static methods.
+ 
+ * [Nano.java](src/momomo/com/Nano.java) 
+    This is just a class utilizing what should only ever be, one instance of Nanotime.
+    
+    We have two static methods, `Nano.time()` and `Nano.timestamp()` where the latter will return a `java.sql.Timestamp` which has built in support for nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance including the nano bits. 
+    
+       
+       
+ * [Nanotime.java](src/momomo/com/Nanotime.java)
+ 
+For normal use, you'd just call `Nano.time()`. Thats' it!
+
+To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version ti be accessed separately.
+
+### How accurate is this?  
+* Is this a *100% accurate* record of current time in nanos? No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
 
 Measuring the error size is possible but very difficult. 
    1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
@@ -161,17 +178,6 @@ For us, what is most important is not being as close to any `System.currentTimeM
 It should only be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff and now so will `Nano.time()`.  
 
 Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
-
-### Getting started
-
-There's basically only one class, `Nanotime.java`, but we've provide another one due to API call looking better through `Nano.time()` since `Nanotime.get()` is not a static method. 
- * [Nano.java](src/momomo/com/Nano.java) 
-    This is just a class utilizing what should only ever be, one instance of Nanotime. 
- * [Nanotime.java](src/momomo/com/Nanotime.java)
- 
-For normal use, you'd just call `Nano.time()`. Thats' it!
-
-To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance version ti be accessed separately.
 
 #### Sample run and results    
 

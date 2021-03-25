@@ -100,7 +100,7 @@ public class Nanotime {
         return System.nanoTime() + diff;
     }
     
-    public Timestamp stamp() {
+    public Timestamp timestamp() {
         long all    = get();
         long millis = TimeUnit.NANOSECONDS.toMillis(all);
         int nanos   = (int) (all - TimeUnit.MILLISECONDS.toNanos(millis));
