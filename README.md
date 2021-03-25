@@ -165,7 +165,7 @@ In truth, `System.currentTimeMillis()` can not be consistent against `System.nan
 It should be highlighted that once calibrated our reference point stays constant, always remains the same, and never changes. That means you have the ability to issue `System.nanoTime()` yet have it refer to a time ***very very*** close to `System.currentTimeMillis()`.
 
 
-##### Java API actually has info on the accuracy so our proofs where not required 
+#### Java API actually has info on the accuracy so our proofs were not required 
 
 In fact we can read in the Java API of the accuracy of [System.currentTimeMillis()](https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/System.html#currentTimeMillis()) where we find: 
 
@@ -175,7 +175,7 @@ That means an error size of up to `100 0000ns * 0.1 = 100 000ns` which means a m
 
 This is what we've noticed in our generated data as well but rarely to those extremes but when we generate 100 million data points we could see larger discrepancies occur!
 
-##### Final comments
+#### Final comments
   
 For us, what is most important is not being as close to any `System.currentTimeMillis()` as possible, always but just to get close enough to an average of them, and do note, an average is better than being close to one due to the error margin inherit in `System.currentTimeMillis()` already discussed.
 
