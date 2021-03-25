@@ -175,7 +175,7 @@ That means an error size of up to `100 0000ns * 0.1 = 100 000ns` which means a m
 
 This is what we've noticed in our generated data as well but rarely to those extremes but when we generate 100 million data points we could see larger discrepancies occur!
 
-#### Final comments
+### Final comments
   
 For us, what is most important is not being as close to any `System.currentTimeMillis()` as possible, always but just to get close enough to an average of them, and do note, an average is better than being close to one due to the error margin inherit in `System.currentTimeMillis()` already discussed.
 
@@ -183,7 +183,7 @@ It should only be seen as a higher precision version of `System.currentTimeMilli
 
 Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
 
-#### Sample run and results    
+### Sample run and results    
 
 A sample test run on **our example code within [`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following, which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
