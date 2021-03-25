@@ -47,44 +47,9 @@ import momomo.com.Strings;
 import momomo.com.annotations.informative.Development;
 
 /**
- * Allows for nanosecond precision when asking for time from Java Runtime than standard System.currentTimeMillis.
- *
- * First, know that System.nanoTime() is elapsed nanos since an arbitrary origin, usually the start of the JVM and can usually only be used to measure elapsed time between two invocations.
- *
- * What this implementation does is allow you to get a higher precision when asking for the time, with nanosecond precision.
- *
- * Normally, you can get the time from your system using System.currentTimeMillis() with millisecond precision but when invoked twice right after each other, calls to System.currentTimeMillis() will usually return the same value.
- *
- * This provides you with nanosecond precision for a method similar to System.currentTimeMillis() by essentially calibrating System.nanoTime() which records nanos elapsed since JVM started with System.currentTimeMillis().
- *
- * When calibrating the two, our code will:
- *
- * Ask System.currentTimeMillis() right after asking System.nanoTime(), in a one liner.
- *  1. We will record the difference between the two.
- *  2. Sleep a random amount of nano seconds.
- *  3. Repeat this process 1000 times.
- *
- * We then take the average recorded difference and use this average to go from System.nanoTime() to a System.currentTimeMillis() by subtracting the average as a calculated DIFF.
- *
- * Is this a 100% accurate record of current time in nanos?
- * Is there even such a definition? What is time? Even atomic clocks do not give a 100% accurate definition of time at any given moment.
- *
- * When we ask for Time.nano() we can expect some discrepancy, as even the cost of calling System.nanoTime() has a cost and in reality only represent a time in the past once given access to it.
- *
- * Rather it a higher precision one than System.currentTimeMillis() as System.currentTimeMillis() will often prove useless when invoked tightly, while System.nanoTime() will show always show a diff, and so will Nano.time().
- *
- * Our code just calibrates the two and allows you to map System.nanoTime() to one based on a sane and constant reference frame usually to when baby Jesus was born, rather than when the JVM turned on.
- *
- * Recalibration
- * Note, recalibration by default is turned off, but you may pass a value of your choice to trigger a recalibration how often you'd like using Nano.setInstance( new Nanotime(...) ), but there is nothing to suggest a recalibration is required unless the underlying system specification differs drastically during runtime in where two calls to System.nanoTime() will diverge.
- *
- * Recalibration also introduces complex requirements regarding when to start using the newly calibrated value so to ensure a proper behaviour we've decided to turn off calibration every to ensure we stay within proper bounds and give a constant reference frame of time once established.
- *
- * There's basically only one class, Nanotime.java, but we've provide another one due to API call looking better through Nano.time() since Nanotime.get() is not a static method.
- *
- * For normal use, you'd just call Nano.time(). Thats' it!
- *
- * To configure Nanotime.java just call Nanotime.setInstance( new Nanotime() ) prior to any use of Nano.time(). You can also create your own instance version ti be accessed separately.
+ * Documentation is available on 
+ *   
+ *   https://github.com/momomo/momomo.com.platform.Nanotime
  *
  * @see momomo.com.Nano#time()
  * @see Nanotime#setInstance(Nanotime)
