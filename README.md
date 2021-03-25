@@ -187,9 +187,9 @@ Our code just synchronizes the two and allows you to map `System.nanoTime()` to 
 
 A sample test run on **our example code within [`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following, which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
-You can [view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true). Just scroll through it and try to detect and expect the flips to occur.  
+You can **[view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)**. Just scroll through it and ***try to detect and expect*** the flips to occur. 
 
-Some random highlights from that file:
+Some *random highlights* from that file:
 
 ```java
 index  : 599
