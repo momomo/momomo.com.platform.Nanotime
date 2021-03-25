@@ -43,17 +43,26 @@ package momomo.com;
 
 import momomo.com.sources.Nanotime;
 
+import java.sql.Timestamp;
+
 /**
  * @see momomo.com.sources.Nanotime
  * @author Joseph S.
  */
 public final class Nano { private Nano(){}
 
+
     /**
-     * Returns higher time precision than System.currentTimeMillis() in nano seconds. 
+     * Returns higher time precision than System.currentTimeMillis() in nano seconds expressed in a long 
      */
     public static long time() {
         return Nanotime.getInstance().get();
     }
     
+    /**
+     * Returns higher time precision than System.currentTimeMillis() in nano seconds, sets and returns a Timestamp which has support for nanosecond resolution
+     */
+    public static Timestamp timestamp() {
+        return Nanotime.getInstance().stamp();
+    }
 }

@@ -46,6 +46,9 @@ import momomo.com.Numbers;
 import momomo.com.Strings;
 import momomo.com.annotations.informative.Development;
 
+import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Documentation is available on 
  *   
@@ -95,6 +98,17 @@ public class Nanotime {
      */
     public long get() {
         return System.nanoTime() + diff;
+    }
+    
+    public Timestamp stamp() {
+        long all    = get();
+        long millis = TimeUnit.NANOSECONDS.toMillis(all);
+        int nanos   = (int) (all - TimeUnit.MILLISECONDS.toNanos(millis));
+        
+        Timestamp stamp = new Timestamp(millis);
+        stamp.setNanos(nanos);
+        
+        return stamp;
     }
     
     /////////////////////////////////////////////////////////////////////
