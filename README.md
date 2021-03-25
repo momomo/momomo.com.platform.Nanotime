@@ -65,7 +65,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
     This is just a class utilizing what should only ever be, one instance of `Nanotime`.
     
     We have two static methods here currently 
-    `Nano.time()` that returns a long `Nano.timestamp()` that returns a `java.sql.Timestamp` which has **built in support** for setting nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance  **including the nano bits**. 
+    `Nano.time()` that returns a long `Nano.timestamp()` that returns a `java.sql.Timestamp` which has **built in support** for setting nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance  **including the nano bits**.   
        
  * [Nanotime.java](src/momomo/com/Nanotime.java)
     Is an instance class  with mainly two methods, `get()` and `timestamp()`. Used by `Nano.time()` and `Nano.timestamp()`.
