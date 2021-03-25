@@ -47,6 +47,7 @@ import momomo.com.Strings;
 import momomo.com.annotations.informative.Development;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -104,13 +105,22 @@ public class Nanotime {
      * Returns higher time precision than System.currentTimeMillis() as a java.sql.Timestamp
      */
     public Timestamp timestamp() {
-        long      now       = get();
-        long      seconds   = TimeUnit.NANOSECONDS.toSeconds(now);
-        Timestamp timestamp = new Timestamp(TimeUnit.SECONDS.toMillis(seconds));
+        long now     = get();
+        long seconds = TimeUnit.NANOSECONDS.toSeconds(now);
+        int  nanos   = (int) (now - TimeUnit.SECONDS.toNanos(seconds));
         
-        timestamp.setNanos((int) (now - TimeUnit.SECONDS.toNanos(seconds)));
+        Timestamp timestamp = new Timestamp(TimeUnit.SECONDS.toMillis(seconds));
+        timestamp.setNanos(nanos);
         
         return timestamp;
+    }
+    
+    public Instant instant() {
+        long now     = get();
+        long seconds = TimeUnit.NANOSECONDS.toSeconds(now);
+        int  nanos   = (int) (now - TimeUnit.SECONDS.toNanos(seconds));
+        
+        return Instant.ofEpochSecond(seconds, nanos); 
     }
     
     /////////////////////////////////////////////////////////////////////

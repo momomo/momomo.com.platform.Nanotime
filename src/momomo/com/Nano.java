@@ -44,6 +44,7 @@ package momomo.com;
 import momomo.com.sources.Nanotime;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * @see momomo.com.sources.Nanotime
@@ -64,6 +65,15 @@ public final class Nano { private Nano(){}
      */
     public static Timestamp timestamp() {
         return Nanotime.getInstance().timestamp();
+    }
+    
+    public static Instant instant() {
+        return Nanotime.getInstance().instant(); 
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(timestamp());
+        System.out.println(instant());
     }
 }
     

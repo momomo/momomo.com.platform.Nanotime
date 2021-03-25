@@ -162,7 +162,6 @@ In truth, `System.currentTimeMillis()` can not be consistent against `System.nan
 
 It should be highlighted that once calibrated our reference point stays constant, always remains the same, and never changes. That means you have the ability to issue `System.nanoTime()` yet have it refer to a time ***very very*** close to `System.currentTimeMillis()`.
 
-
 #### Java API actually has info on the accuracy so our proofs were not required 
 
 In fact we can read in the Java API of the accuracy of [System.currentTimeMillis()](https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/System.html#currentTimeMillis()) where we find: 
@@ -179,7 +178,7 @@ For us, what is most important is not being as close to any `System.currentTimeM
 
 It should only be seen as a higher precision version of `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will show always show a diff and now so will `Nano.time()`.  
 
-Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
+Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on. 
 
 ### Sample run and results    
 
