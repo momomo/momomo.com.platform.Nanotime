@@ -82,7 +82,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
  
 For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetime()`, `Nano.localtime()`, `Nano.instant()` ... 
 
-## Thats' it!
+##### Thats' it!
 
 ### Configuration
 
