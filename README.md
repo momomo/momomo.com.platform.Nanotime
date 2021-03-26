@@ -23,7 +23,7 @@
 ##### Our other repositories
 
 * **[`momomo.com.platform.Core`](https://github.com/momomo/momomo.com.platform.Core)**  
-Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of `Java` utility.
+Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of Java utility.
 
 * **[`momomo.com.platform.Lambda`](https://github.com/momomo/momomo.com.platform.Lambda)**  
 Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed 
