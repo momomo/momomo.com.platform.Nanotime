@@ -77,7 +77,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
    
     For all of these we will set up the relevant **nano bits** for you.   
        
- * [Nanotime.java](src/momomo/com/Nanotime.java)
+ * [Nanotime.java](src/momomo/com/Nanotime.java)  
     Is the instance class with similar methods.
  
 For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetime()`, `Nano.localtime()`, `Nano.instant()` ... 
