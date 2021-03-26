@@ -45,35 +45,81 @@ import momomo.com.sources.Nanotime;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 
 /**
  * @see momomo.com.sources.Nanotime
+ * 
  * @author Joseph S.
  */
 public final class Nano { private Nano(){}
 
+    public static Nanotime instance() {
+        return Nanotime.getInstance(); 
+    }
 
     /**
      * Returns higher time precision than System.currentTimeMillis() in nano seconds expressed in a long 
      */
     public static long time() {
-        return Nanotime.getInstance().get();
+        return instance().get();
     }
     
     /**
      * Returns higher time precision than System.currentTimeMillis() in nano seconds, sets and returns a Timestamp which has support for nanosecond resolution
+     * 
+     * toString() -> 2021-03-25 22:15:28.986068681 
      */
     public static Timestamp timestamp() {
-        return Nanotime.getInstance().timestamp();
+        return instance().timestamp();
     }
     
+    /**
+     * toString() -> 2021-03-25T21:15:28.989876426
+     */
+    public static LocalDateTime datetime() {
+        return instance().datetime();
+    }
+    
+    /**
+     * toString() -> 21:18:34.260363177
+     */
+    public static LocalTime localtime() {
+        return instance().localtime();
+    }
+    
+    /**
+     * toString() -> 2021-03-25T21:18:49.431440982Z 
+     */
     public static Instant instant() {
-        return Nanotime.getInstance().instant(); 
+        return instance().instant();
     }
     
-    public static void main(String[] args) {
+    /**
+     * toString() -> 2021-03-25T21:18:49.434488996Z
+     */
+    public static ZonedDateTime zonedtime() {
+        return instance().zonedtime();
+    }
+    
+    /**
+     * toString() -> 2021-03-25T21:18:49.434622190Z
+     */
+    public static OffsetDateTime offsettime() {
+        return instance().offsettime();
+    }
+    
+    private static void main(String[] args) {
         System.out.println(timestamp());
+        System.out.println(datetime());
+        System.out.println(localtime());
         System.out.println(instant());
+        System.out.println(zonedtime());
+        System.out.println(offsettime());
     }
 }
     

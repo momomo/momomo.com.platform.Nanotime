@@ -48,7 +48,13 @@ import momomo.com.annotations.informative.Development;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * Documentation is available on 
@@ -120,7 +126,27 @@ public class Nanotime {
         long seconds = TimeUnit.NANOSECONDS.toSeconds(now);
         int  nanos   = (int) (now - TimeUnit.SECONDS.toNanos(seconds));
         
-        return Instant.ofEpochSecond(seconds, nanos); 
+        return Instant.ofEpochSecond(seconds, nanos);
+    }
+    
+    public LocalDateTime datetime() {
+        long now     = get();
+        long seconds = TimeUnit.NANOSECONDS.toSeconds(now);
+        int  nanos   = (int) (now - TimeUnit.SECONDS.toNanos(seconds));
+        
+        return LocalDateTime.ofEpochSecond(seconds, nanos, UTC);
+    }
+    
+    public OffsetDateTime offsettime() {
+        return instant().atOffset(UTC);
+    }
+    
+    public LocalTime localtime() {
+        return LocalTime.ofInstant(instant(), UTC);
+    }
+    
+    public ZonedDateTime zonedtime() {
+        return instant().atZone(UTC);
     }
     
     /////////////////////////////////////////////////////////////////////
@@ -148,7 +174,7 @@ public class Nanotime {
     /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
     
-    @Development public static void main(String[] args) {
+    @Development private static void main(String[] args) {
         Long[][] array = sample();
         
         errorsize(array, true); 
