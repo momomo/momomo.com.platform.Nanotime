@@ -22,7 +22,7 @@
 
 ##### Our other repositories
 
-* [`momomo.com.platform.Core`](https://github.com/momomo/momomo.com.platform.Lambda)  
+* [`momomo.com.platform.Core`](https://github.com/momomo/momomo.com.platform.Core)  
 Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of `Java` utility.
 
 * [`momomo.com.platform.Lambda`](https://github.com/momomo/momomo.com.platform.Lambda)  
