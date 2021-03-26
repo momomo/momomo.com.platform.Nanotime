@@ -9,7 +9,7 @@
 <dependency>
   <groupId>com.momomo</groupId>
   <artifactId>momomo.com.platform.Nanotime</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
 </dependency>                                                      
 ```                         
 ##### Repository
