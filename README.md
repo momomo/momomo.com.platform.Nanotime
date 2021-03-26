@@ -59,20 +59,30 @@ The total time for the calibration for 100 times, is as you guessed it, around `
 
 ### Getting started
 
-There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano.time()` since `Nanotime.get()` and `Nanotime.timestamp()` are not static methods.
+There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano` since `Nanotime` methods are not static.
  
  * [Nano.java](src/momomo/com/Nano.java)   
     This is just a class utilizing what should only ever be, one instance of `Nanotime`.
     
-    We have two static methods here currently 
-    `Nano.time()` that returns a long `Nano.timestamp()` that returns a `java.sql.Timestamp` which has **built in support** for setting nanos and where we in `Nanotime.timestamp()` set up the `Timestamp` instance  **including the nano bits**.   
+    We have the following static methods currently
+    ```java
+    Nano.time()       : long                      :  
+    Nano.timestamp()  : java.sql.Timestamp        : toString() -> 2021-03-25 22:15:28.986068681 
+    Nano.datetime()   : java.time.LocalDateTime   : toString() -> 2021-03-25T21:15:28.989876426 
+    Nano.localtime()  : java.time.LocalTime       : toString() -> 21:18:34.260363177 
+    Nano.instant()    : java.time.Instant         : toString() -> 2021-03-25T21:18:49.431440982Z
+    Nano.zonedtime()  : java.time.ZonedDateTime   : toString() -> 2021-03-25T21:18:49.434488996Z 
+    Nano.offsettime() : java.time.OffsetDateTime  : toString() -> 2021-03-25T21:18:49.434622190Z
+    ```   
+   
+    For all of these we will set up the relevant **nano bits** for you.   
        
  * [Nanotime.java](src/momomo/com/Nanotime.java)
-    Is an instance class  with mainly two methods, `get()` and `timestamp()`. Used by `Nano.time()` and `Nano.timestamp()`.
+    Is the instance class with similar methods.
  
-For normal use, you'd just call `Nano.time()` or `Nano.timestamp()`. 
+For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetime()`, `Nano.localtime()`, `Nano.instant()` ... 
 
-Thats' it!
+##Thats' it!
 
 ### Configuration
 
