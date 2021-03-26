@@ -28,7 +28,7 @@ Is essentially what makes the our the core of several of momomo.com's public rel
 * **[`momomo.com.platform.Lambda`](https://github.com/momomo/momomo.com.platform.Lambda)**  
 Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed 
 and understood intuitive pattern.  
-**`Lambda.V1E`**, **`Lambda.V2E`**, **`Lambda.R1E`**, **`Lambda.R2E`**, ...  are used plenty in examples below.
+**`Lambda.V1E`**, **`Lambda.V2E`**, **`Lambda.R1E`**, **`Lambda.R2E`**, ...  are used plenty in our libraries.
 
 * **[`momomo.com.platform.Return`](https://github.com/momomo/momomo.com.platform.Return)**  
 An intuitive library that allows you to return multiple return values with defined types on the fly from any method rather than being limited to the default maximum of one.
