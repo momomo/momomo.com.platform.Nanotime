@@ -89,7 +89,7 @@ For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetim
 To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance that can be accessed separately. 
 
 ### How accurate is this?  
-* Is this a *100% accurate* record of current time in nanos? No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
+* Is this a *100% accurate* record of current time in nanos? No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment. Can two machines that make use of this reliably record time of invocation and could a third party reliably tell which came first? No, we can not state that either since each machine will generate a different set of calibrated values against that machines own `System.currentTimeMillis()`. There will slight variances. But given that two machines could synchronize their DIFF, it is possible they could synchronize their time on a nano resolution since they would both be using the same reference.    
 
 Measuring the error size is possible but very difficult. 
    1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
