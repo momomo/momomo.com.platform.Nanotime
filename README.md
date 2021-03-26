@@ -62,7 +62,7 @@ The total time for the calibration for 100 times, is as you guessed it, around `
 There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano` since `Nanotime` methods are not static.
  
  * [Nano.java](src/momomo/com/Nano.java)   
-    This is just a class utilizing what should only ever be, one instance of `Nanotime`.
+    A class utilizing what should only ever be, one instance of `Nanotime`.
     
     We have the following static methods currently
     ```java
@@ -78,7 +78,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
     For all of these we will set up the relevant **nano bits** for you.   
        
  * [Nanotime.java](src/momomo/com/Nanotime.java)  
-    Is the instance class with similar methods.
+    Is the instance class with similarly named instance methods.
  
 For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetime()`, `Nano.localtime()`, `Nano.instant()` ... 
 
