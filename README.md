@@ -91,7 +91,8 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` 
 ### How accurate is this?  
 * Is this a *100% accurate* record of current time in nanos? No, but is there even **such a definition**? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment. Can two machines that make use of this reliably record time of invocation and could a third party reliably tell which came first? No, we can not state that either since each machine will generate a different set of calibrated values against that machines own `System.currentTimeMillis()`. There will slight variances. But given that two machines could synchronize their DIFF, it is possible they could synchronize their time on a nano resolution since they would both be using the same reference.    
 
-Measuring the error size is possible but very difficult. 
+Measuring the error size is possible but very difficult since:
+ 
    1. It is hard to measure both since we can not issue both commands at the exact same time, but only one after the other.
    2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, followed by a call to `System.nanoTime()` might at times take `30ns` between each, and at times a wopping `0.4ms`. The JVM sometimes generates big diffs between calls at times and when we compare the numbers the difference might be very large between two calls despite the min being as close as `30ns`.  
    3. `System.currentTimeMillis()` is not reliable to compare to in the first place. See proofs below.  
