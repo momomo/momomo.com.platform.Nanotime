@@ -125,7 +125,7 @@ On the contrary a call to `System.nanoTime()` is very expensive at time up to `0
 
 ### Final comments
   
-For us, what is most important *is not* being as close to any `System.currentTimeMillis()` as possible but just to get close enough and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will almost always show a diff and now so will `Nano.time()`.  
+For us, what is most important *is not* being as close to any `System.currentTimeMillis()` as possible, which is not an exact science anyway, but to get close enough and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will almost always show a diff and now so will `Nano.time()`.  
 
 Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on. 
 
