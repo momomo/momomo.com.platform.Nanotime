@@ -67,7 +67,7 @@ import static java.time.ZoneOffset.UTC;
  * @author Joseph S.
  */
 public class Nanotime {
-    protected final long diff;    // Between System.nanoTime and System.currentTimeMillis() in order to give the current time in nanos, which is used to estimate the cost of the System.nanoTime operation
+    public final long diff;    // Between System.nanoTime and System.currentTimeMillis() in order to give the current time in nanos, which is used to estimate the cost of the System.nanoTime operation
     
     public Nanotime() {
         this(0);
@@ -80,24 +80,24 @@ public class Nanotime {
      * There is no reason really to be even looking at getting as close to System.currentTimeMillis() as possible. 
      */
     public Nanotime(long adjust) {
-        MovingAverageConverging average = new MovingAverageConverging(0.667);
+        MovingAverageConverging average = new MovingAverageConverging(0.678);
         
-        long nowMillis, nowNanos, added = 0, max = 100, lastMillis = System.currentTimeMillis();
+        long nowMillis, nowNanos, added = 0, max = 100, lastMillis = System.currentTimeMillis(), lastNanos = System.nanoTime();
         do {
             nowNanos  = System.nanoTime();
             nowMillis = System.currentTimeMillis();
-        
-            if ( nowMillis == (lastMillis + 1) ) {
-                average.add( nowMillis * 1000000L - nowNanos + (-System.nanoTime() + System.nanoTime()) );
-            
-                if ( ++added == max ) break;
-            }
-        
-            lastMillis = nowMillis;
-        
-        } while( true );
     
-        diff = Math.round(average.get()) + adjust;
+            if (nowMillis == (lastMillis + 1)) {
+                average.add(nowMillis * 1000000L - nowNanos + (-System.nanoTime() + System.nanoTime()));
+        
+                if (++added == max) break;
+            }
+    
+            lastMillis = nowMillis;
+    
+        } while (true);
+        
+        this.diff = Math.round(average.get()) + adjust;
     }
     
     /**
@@ -193,8 +193,7 @@ public class Nanotime {
      * If the last call to millis is what we expect we feel the error margin is within an acceptable range. 
      */
     @Development private static double errorsize(Long[][] array, boolean printLarge) {
-        double smallest = 100000;
-        double largest  = 0;
+        double smallest = 100000, largest  = 0;
         int i = -1; for (Long[] it : array) {
             
             if  ( ++i < 500 ) continue; 

@@ -132,11 +132,11 @@ public class Ex { private Ex(){}
         }
     }
     
-    public static $RuntimeException runtime(Throwable e) {
-        if ( e instanceof $RuntimeException ) {
-            return ($RuntimeException) e;   // No need to wrap again. Throw as is!
+    public static RuntimeException runtime(Throwable e) {
+        if ( e instanceof RuntimeException ) {
+            return runtime( (RuntimeException) e );  // No need to wrap. Throw as is!
         }
-        
+    
         if ( e instanceof IOException ) {
             return runtime( (IOException) e );
         }
@@ -154,6 +154,10 @@ public class Ex { private Ex(){}
         }
     
         return new $RuntimeException(e); 
+    }
+    
+    public static RuntimeException runtime(RuntimeException e) {
+        return e;
     }
     
     public static $RuntimeException runtime(IOException e) {
