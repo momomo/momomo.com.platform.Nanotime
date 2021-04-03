@@ -38,8 +38,7 @@ A library to execute database command in transactions without having to use anno
 
 ### Background
 
-First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time 
-between two invocations. 
+First, know that `System.nanoTime()` is elapsed nanos since an arbitrary origin, usually *the start of the JVM* and can usually only be used to measure elapsed time between two invocations. 
 
 What this implementation does is provide you with a way of getting higher precision when asking for the time, with *nanosecond* precision.
 
