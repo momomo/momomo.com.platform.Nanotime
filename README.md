@@ -65,7 +65,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
     
     We have the following static methods currently
     ```java
-    Nano.time()       : long                      : toString() -> 1616615287382000605 
+    Nano.time()       : long                      : 1616615287382000605 
     Nano.timestamp()  : java.sql.Timestamp        : toString() -> 2021-03-25 22:15:28.986068681 
     Nano.datetime()   : java.time.LocalDateTime   : toString() -> 2021-03-25T21:15:28.989876426 
     Nano.localtime()  : java.time.LocalTime       : toString() -> 21:18:34.260363177 
