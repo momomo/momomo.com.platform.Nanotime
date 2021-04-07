@@ -51,6 +51,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 
@@ -67,6 +69,8 @@ import static java.time.ZoneOffset.UTC;
  * @author Joseph S.
  */
 public class Nanotime {
+    private static final ZoneOffset ZONE = UTC;
+    
     public final long diff;    // Between System.nanoTime and System.currentTimeMillis() in order to give the current time in nanos, which is used to estimate the cost of the System.nanoTime operation
     
     public Nanotime() {
@@ -139,23 +143,35 @@ public class Nanotime {
     }
     
     public LocalDateTime datetime() {
+        return datetime(ZONE);
+    }
+    public LocalDateTime datetime(ZoneOffset zone) {
         long now     = get();
         long seconds = TimeUnit.NANOSECONDS.toSeconds(now);
         int  nanos   = (int) (now - TimeUnit.SECONDS.toNanos(seconds));
         
-        return LocalDateTime.ofEpochSecond(seconds, nanos, UTC);
+        return LocalDateTime.ofEpochSecond(seconds, nanos, zone);
     }
     
     public OffsetDateTime offsettime() {
-        return instant().atOffset(UTC);
+        return offsettime(ZONE);
+    }
+    public OffsetDateTime offsettime(ZoneOffset zone) {
+        return instant().atOffset(zone);
     }
     
     public LocalTime localtime() {
-        return LocalTime.ofInstant(instant(), UTC);
+        return localtime(ZONE);
+    }
+    public LocalTime localtime(ZoneId zone) {
+        return LocalTime.ofInstant(instant(), zone);
     }
     
     public ZonedDateTime zonedtime() {
-        return instant().atZone(UTC);
+        return zonedtime(ZONE);
+    }
+    public ZonedDateTime zonedtime(ZoneId zone) {
+        return instant().atZone(zone);
     }
     
     /////////////////////////////////////////////////////////////////////
