@@ -20,7 +20,7 @@
 </repository>
 ```
 
-##### Our significant repositories
+##### Our highlighted repositories
 
 * **[`momomo.com.platform.Core`](https://github.com/momomo/momomo.com.platform.Core)**  
 Is essentially what makes the our the core of several of momomo.com's public releases and contains a bunch of Java utility.
@@ -33,6 +33,9 @@ An intuitive library that allows you to return multiple return values with defin
 
 * **[`momomo.com.platform.db.transactional.Hibernate`](https://github.com/momomo/momomo.com.platform.db.transactional.Hibernate)**  
 A library to execute database command in transactions without having to use annotations based on Hibernate libraries. No Spring!
+
+* **[`momomo.com.platform.db.transactional.Spring`](https://github.com/momomo/momomo.com.platform.db.transactional.Spring)**  
+A library to execute database command in transactions without having to use annotations based on Spring libraries.
 
 ### Background
 
