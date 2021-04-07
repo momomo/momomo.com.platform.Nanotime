@@ -85,7 +85,7 @@ For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetim
 
 ### Configuration
 
-To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime() )` prior to any use of `Nano.time()`. You can also create your own instance that can be accessed separately. 
+To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime(...) )` prior to any use of `Nano.time()`. You can also create your own instance that can be accessed separately. 
 
 ### How accurate is this?  
 * Is this a *100% accurate* record of current time in nanos?   
