@@ -70,27 +70,29 @@ public class Nanotime {
     public final long diff;    // Between System.nanoTime and System.currentTimeMillis() in order to give the current time in nanos, which is used to estimate the cost of the System.nanoTime operation
     
     public Nanotime() {
-        this(0);
+        this(0, 100);
     }
     
     /**
      * @param adjust for some reason on our computer changing the value to 1000ns will yield smaller maximum error sizes.
      *               
      * We leave the default as 0 though because we do not know the effect this has on other computers. 
-     * There is no reason really to be even looking at getting as close to System.currentTimeMillis() as possible. 
+     * There is no reason really to be even looking at getting as close to System.currentTimeMillis() as possible.
+     *               
+     * @param how many rounds we wish to go when calibrating and will ultimately affect the setup cost. for most cases a round of 1 would be sufficient.                
      */
-    public Nanotime(long adjust) {
+    public Nanotime(long adjust, long rounds) {
         MovingAverageConverging average = new MovingAverageConverging(0.678);
         
-        long nowMillis, nowNanos, added = 0, max = 100, lastMillis = System.currentTimeMillis(), lastNanos = System.nanoTime();
+        long nowMillis, nowNanos, lastMillis = System.currentTimeMillis(), lastNanos = System.nanoTime();
         do {
-            nowNanos  = System.nanoTime();
+            nowNanos  = System.nanoTime(); 
             nowMillis = System.currentTimeMillis();
     
             if (nowMillis == (lastMillis + 1)) {
                 average.add(nowMillis * 1000000L - nowNanos + (-System.nanoTime() + System.nanoTime()));
         
-                if (++added == max) break;
+                if ( --rounds <= 0 ) break;
             }
     
             lastMillis = nowMillis;
@@ -98,6 +100,13 @@ public class Nanotime {
         } while (true);
         
         this.diff = Math.round(average.get()) + adjust;
+    }
+    
+    /**
+     * For synchronization across several machines a diff would be calculated prior to creating the instance in order for us to retain the final aspects of the diff to ensure constant and linear behaviour against System.nanoTime()
+     */
+    public Nanotime(long diff) {
+        this.diff = diff;
     }
     
     /**
