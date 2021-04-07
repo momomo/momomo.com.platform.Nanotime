@@ -13,7 +13,7 @@ public class Id implements $CharSeq {
     private final String val;
     
     public Id() {
-        this(Randoms.UUID());
+        this(Randoms.UUID(1));
     }
     
     public Id(CharSequence id) {
