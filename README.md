@@ -92,23 +92,25 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime(...) 
 No, but is there even *such a definition*? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
  
 * Can two machines that make use of this reliably record time of invocation and could a third party reliably tell which came first?   
-No, we can not state that either since each machine will generate a different set of calibrated values against it's own `System.currentTimeMillis()`. There will be slight variances. But given that two machines could synchronize their time and reference point, it is possible we could say an invocation occurred before the other using the generated timestamp.
+No, we can not state that either since each machine will generate a different set of calibrated values against it's own `System.currentTimeMillis()`. There will be slight variances. But given that two machines could synchronize their time and reference point, it is possible we could say an invocation occurred before the other using the generated timestamp but that is after such synchronization has been perfomed.   
+ &nbsp;  
+ This library provides no means to perform such synchronization of reference points across several machines but we've left the implementation open for such possibilities. We think a master machine could be made to to send out its own `System.nanoTime()` calls repeatedly which slaves would use to calibrate against instead.  
 
-Measuring the *error size* is possible but very difficult since:
+#####Measuring the *error size* is possible but very difficult since:
  
    1. We can not issue both commands at the exact same time, but only one after the other.
    
-   2. A call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()` followed by a call to `System.nanoTime()` might at times take `30ns` between each and at times a wopping `0.4ms`. The JVM sometimes generates big diffs between these calls and when we compare their numbers, the difference might be very large between two calls despite the min being as close as `30ns`.
+   3. Cost of call to `System.nanoTime()` as well as to `System.currentTimeMillis()` is not constant and linear, and can vary greatly with a call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, and followed by a call to `System.nanoTime()` might at times take `30ns` between each and at times a wopping `0.4ms`. The JVM sometimes generates big diffs between these calls and when we compare their numbers, the difference might be very large between two calls despite the `min` being as close as `30ns`.
      
-   3. `System.currentTimeMillis()` is not reliable to compare to in the first place as it might report a millisecond switch `±0.1ms` off. 
+   3. `System.currentTimeMillis()` is not reliable to compare to in the first place as it might report a millisecond switch `±0.1ms` off.  
        
    4. Acccuracy depends much on your computers ability to calibrate better. A slow computer is likely to yield less accurate results.
    
 ##### Question
 
-If we plot `System.nanoTime()` over time, will we get a `100%` perfectly linear graph? If we do so for `System.currentTimeMillis()` do we as well?
+If we plot `System.nanoTime()` over the most accurate clock ever devised, will we get a `100%` perfectly linear graph? How about `System.currentTimeMillis()`? What if plot the ratio between both?
 
-No, because `System.currentTimeMillis()` is not linear, nor consistent in reporting time on time, which is to be expected as `System.currentTimeMillis()` can not be 100% consistent against `System.nanoTime()` where it would flip a `ms` on the exact end of a `ms` on the `1000 000ns` because it is only millisecond precision. It **can not time** a `nanosecond` switch that precisely.      
+No, because `System.currentTimeMillis()` is not linear, nor consistent in reporting ***time on time***, which is to be expected as `System.currentTimeMillis()` can not be `100%` consistent against `System.nanoTime()` where it would flip a `ms` on the exact end of a `ms` on the `1000 000ns` because it is only millisecond precision. It **can not time** a `nanosecond` switch that precisely.      
 
 ***It should be highlighted that once calibrated our reference point stays constant, always remains the same, and never changes.***
 
@@ -116,23 +118,31 @@ The `Java API` has some info on the accuracy of **[`System.currentTimeMillis()`]
 
 > Note that while the unit of time of the return value is a millisecond, the **granularity** of the value depends on the underlying operating system and may be larger. For example, many operating systems measure time in units of **tens of milliseconds**.
 
-That means an error size of up to `100 0000ns * 0.1 = 100 000ns` which means a millisecond might be reported earlier or later of up to `0.1 milliseconds` off. 
+That means an error size of up to `100 0000ns * 0.1 = 100 000ns`. This means a millisecond might be reported earlier or later of up to `0.1 milliseconds` off and is what we've noticed in our generated data as well but rarely to those extremes but when we generate `100 million` data points we could see larger discrepancies close to those extremes occur!
 
-This is what we've noticed in our generated data as well but rarely to those extremes but when we generate 100 million data points we could see larger discrepancies occur!
+On the contrary a call to `System.nanoTime()` is very expensive at times, with recordings between two calls to `System.nanoTime()` taking as much as up to `0.4ms = 400000ns` and other times only about `~30ns`. 
 
-On the contrary a call to `System.nanoTime()` is very expensive at time up to `0.4ms = 400000ns` and other times only about `~30ns`. So to think you can measure the performance of two invocations using `System.nanoTime()` reliably is also wrong as the cost of the second call might actually get you a very delayed answer.  
+So to think you can measure the performance of two invocations using `System.nanoTime()` reliably is also wrong as the cost of the second call might actually get you a very delayed answer.   
 
 ### Final comments
   
-For us, what is most important *is not* being as close to any `System.currentTimeMillis()` as possible, which is not an exact science anyway, but to get close enough and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as `System.currentTimeMillis()` will often prove useless when invoked tightly, while `System.nanoTime()` will almost always show a diff and now so will `Nano.time()`.  
+For us, what is most important *is not* being as close to the most accurate clock ever devices, nor to be as close to `System.currenTimeMillis()` as possible which we've proven is not an exact science anyway but for us, it is only important to get close enough. and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as it will often prove useless when invoked tightly while `System.nanoTime()` will almost always show a `diff` and now so will `Nano.time()`.  
 
-Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on. 
+Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
+
+In the end, we only call **`System.nanoTime() + diff`** where **`diff`** is **`final`** after being calculated in the constructor of **`Nanotime`**.    
 
 ### Sample run and results    
 
 A sample test run on **our example code within [`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
-You can **[view or download the 100 000 rows of output here](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)**. Just scroll through it and ***try to detect and expect*** the flips to occur. 
+```java
+// We generate the data as quick as we can and then generate the strings in the output below
+
+array[++i] = Long[]{Nano.time(), System.currentTimeMillis(), Nano.time(), Nano.time(), System.currentTimeMillis()}
+``` 
+
+You can **[view or download the 100 000 rows of output here (15MB)](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)**. Just scroll through it and ***try to detect and expect*** the flips to occur. 
 
 Some *random highlights* from that file:
 
@@ -204,7 +214,7 @@ nanos  : 1616615287382000681
 millis : 1616615287382
 ```
  
-Here are some highlights from a different smaller sample run that analyzes data similar found in the file where we calculate min and max diffs from what we expect at switches. Calculation is not perfect and actually quite complex to get right.   
+Here are some highlights from a *different run* where we calculate `min` and `max` diffs from what we expect at switches. Calculation is not perfect and actually quite complex to get right.   
 
 
 ```java
