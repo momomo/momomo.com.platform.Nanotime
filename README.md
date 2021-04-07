@@ -92,11 +92,11 @@ To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime(...) 
 No, but is there even *such a definition*? What is time? Time always have a reference point. Even atomic clocks do not give a 100% accurate definition of time at any given moment.
  
 * Can two machines that make use of this reliably record time of invocation and could a third party reliably tell which came first?   
-No, we can not state that either since each machine will generate a different set of calibrated values against it's own `System.currentTimeMillis()`. There will be slight variances. But given that two machines could synchronize their time and reference point, it is possible we could say an invocation occurred before the other using the generated timestamp but that is after such synchronization has been perfomed.   
+No, we can not state that either since each machine will generate a different set of calibrated values against it's own `System.currentTimeMillis()`. There will be slight differences. But given that two machines could synchronize their time and reference point, it is possible we could say an invocation occurred before the other using the generated timestamp but that is after such synchronization has been perfomed.   
  &nbsp;  
- This library provides no means to perform such synchronization of reference points across several machines but we've left the implementation open for such possibilities. We think a master machine could be made to to send out its own `System.nanoTime()` calls repeatedly which slaves would use to calibrate against instead.  
-
-#####Measuring the *error size* is possible but very difficult since:
+ This library provides no means to perform such synchronization of reference points across several machines but we've left the implementation open for such possibility if we ever need it. We believe a master machine could be made to send out its own `System.nanoTime()` along with the recorded `System.currentTimeMillis()` to slave machines for them to synchronize against instead.
+ 
+##### Measuring the *error size* is possible but very difficult since:
  
    1. We can not issue both commands at the exact same time, but only one after the other.
    
