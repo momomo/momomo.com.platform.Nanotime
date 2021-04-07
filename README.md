@@ -132,7 +132,7 @@ Our code just synchronizes the two and allows you to map `System.nanoTime()` to 
 
 In the end, we only call **`System.nanoTime() + diff`** where **`diff`** is **`final`** after being calculated in the constructor of **`Nanotime`**.    
 
-### Sample run and results    
+### Sample run & results    
 
 A sample test run on **our example code within [`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
