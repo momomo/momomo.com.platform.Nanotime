@@ -102,7 +102,7 @@ No, we can not state that either since each machine will generate a different se
    
    3. Cost of call to `System.nanoTime()` as well as to `System.currentTimeMillis()` is not constant and linear, and can vary greatly with a call to `System.nanoTime()` followed by a call to `System.currentTimeMillis()`, and followed by a call to `System.nanoTime()` might at times take `30ns` between each and at times a wopping `0.4ms`. The JVM sometimes generates big diffs between these calls and when we compare their numbers, the difference might be very large between two calls despite the `min` being as close as `30ns`.
      
-   3. `System.currentTimeMillis()` is not reliable to compare to in the first place as it might report a millisecond switch `±0.1ms` off.  
+   3. `System.currentTimeMillis()` is not reliable to compare to in the first place as it might report a millisecond flip `±0.1ms` off.  
        
    4. Acccuracy depends much on your computers ability to calibrate better. A slow computer is likely to yield less accurate results.
    
@@ -110,7 +110,7 @@ No, we can not state that either since each machine will generate a different se
 
 If we plot `System.nanoTime()` over the most accurate clock ever devised, will we get a `100%` perfectly linear graph? How about `System.currentTimeMillis()`? What if plot the ratio between both?
 
-No, because `System.currentTimeMillis()` is not linear, nor consistent in reporting ***time on time***, which is to be expected as `System.currentTimeMillis()` can not be `100%` consistent against `System.nanoTime()` where it would flip a `ms` on the exact end of a `ms` on the `1000 000ns` because it is only millisecond precision. It **can not time** a `nanosecond` switch that precisely.      
+No, because `System.currentTimeMillis()` is not linear, nor consistent in reporting ***time on time***, which is to be expected as `System.currentTimeMillis()` can not be `100%` consistent against `System.nanoTime()` where it would flip a `ms` on the exact end of a `ms` on the `1000 000ns` because it is only millisecond precision. It **can not time** a `nanosecond` flip that precisely.      
 
 ***It should be highlighted that once calibrated our reference point stays constant, always remains the same, and never changes.***
 
