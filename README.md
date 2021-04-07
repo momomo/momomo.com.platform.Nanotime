@@ -49,13 +49,12 @@ to `System.currentTimeMillis()` will usually return the same value.
 This library provides you with nanosecond precision similar to `System.currentTimeMillis()` by calibrating `System.nanoTime()` with `System.currentTimeMillis()`.  
 
 When calibrating the two, our code will:  
-   1. Ask `System.currentTimeMillis()` as quickly as we can, until we detect the `1ms` flip.
-   2. Once detected, we ask `System.nanoTime()` what time it has.   
-   3. Record the difference between the two. 
-   4. Repeat this process `100` times (cheap operation), which tests have found is reasonably. 
-   5. Also, we subtract the cost of operation `System.nanoTime()` slightly past `System.currentTimeMillis()` which is usually around `30ns` but we calculate once we detect a flip.
+   1. Ask `System.currentTimeMillis()` as quickly as we possibly can up until we detect the `1ms` flip.
+   2. Once detected, we ask `System.nanoTime()` what time it has and record the difference between the two. 
+   3. Repeat this process `100` times (cheap operation) which tests have found is more than enough. 
+   4. Also, we subtract the cost of operation `System.nanoTime()` slightly past `System.currentTimeMillis()` which is usually around `30ns` but we calculate the actual once we detect a flip.
 
-The total time for the calibration for 100 times, is as you guessed it, around `100ms` since we are waiting for 100 flips to occur.
+The total time for the calibration for 100 times, is as you guessed it, around `100ms` since we are waiting for `100` flips to occur.
 
 ### Getting started
 
