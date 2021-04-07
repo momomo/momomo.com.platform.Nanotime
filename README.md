@@ -54,7 +54,7 @@ When calibrating the two, our code will:
    3. Repeat this process `100` times (cheap operation) which tests have found is more than enough. 
    4. Also, we subtract the cost of operation `System.nanoTime()` slightly past `System.currentTimeMillis()` which is usually around `30ns` but we calculate the actual once we detect a flip.
 
-The total time for the calibration for 100 times, is as you guessed it, around `100ms` since we are waiting for `100` flips to occur.
+The total time for the calibration for `100` times, is as you guessed it, around `100ms` since we are waiting for `100` flips to occur.
 
 ### Getting started
 
