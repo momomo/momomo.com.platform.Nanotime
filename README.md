@@ -74,7 +74,7 @@ There's basically only one class, `Nanotime.java` containing the implementation 
     Nano.offsettime() : java.time.OffsetDateTime  : toString() -> 2021-03-25T21:18:49.434622190Z
     ```   
    
-    For all of these we will set up the relevant **nano bits** for you.   
+    For all of these types, we will set up the relevant **nano bits** for you.   
        
  * [Nanotime.java](src/momomo/com/Nanotime.java)  
     Is the instance class with similarly named instance methods.
