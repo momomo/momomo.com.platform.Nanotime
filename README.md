@@ -56,7 +56,7 @@ When calibrating the two, our code will:
 
 The total time for the calibration for `100` times, is as you guessed it, around `100ms` since we are waiting for `100` flips to occur.
 
-### Getting started
+## Getting started
 
 There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano` since `Nanotime` methods are not static.
  
