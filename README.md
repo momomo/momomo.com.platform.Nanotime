@@ -29,7 +29,7 @@ Is essentially what makes the our the core of several of momomo.com's public rel
 Contains a bunch of `functional interfaces` similar to `Runnable`, `Supplier`, `Function`, `BiFunction`, `Consumer` `...` and so forth all packed in a easily accessed and understood intuitive pattern that are used plenty in our libraries. **`Lambda.V1E`**, **`Lambda.V2E`**, **`Lambda.R1E`**, **`Lambda.R2E`**, ...
 
 * **[`momomo.com.platform.Return`](https://github.com/momomo/momomo.com.platform.Return)**  
-Intuitive library that makes it easier for you to return multiple well defined objects  on the fly from any method, any time rather than being limited to the default maximum of one. 
+Intuitive library that makes it easier for you to return multiple, and fully defined objects on the fly from any method, any time rather than being limited to the default maximum of one. 
 
 * **[`momomo.com.platform.db.transactional.Hibernate`](https://github.com/momomo/momomo.com.platform.db.transactional.Hibernate)**  
 A library to execute database command in transactions without having to use annotations based on Hibernate libraries. No Spring!
