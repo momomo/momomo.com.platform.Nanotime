@@ -53,10 +53,10 @@ The total time for the calibration for `100` times, is as you guessed it, around
 
 ## Getting started
 
-There's basically only one class, `Nanotime.java` containing the implementation of our concept but we've provided another one due to API call looking better through `Nano` since `Nanotime` methods are not static.
+There's basically only one class, **`Nanotime.java`** containing the implementation of our concept but we've provided another one due to API call looking better through **`Nano`** since **`Nanotime`** methods are not static.
  
- * [Nano.java](src/momomo/com/Nano.java)   
-    A class utilizing what should only ever be, one instance of `Nanotime`.
+ * **[`Nano.java`](src/momomo/com/Nano.java)**   
+    A class utilizing what should only ever be, one instance of **`Nanotime`**.
     
     We have the following static methods currently
     ```java
@@ -71,16 +71,16 @@ There's basically only one class, `Nanotime.java` containing the implementation 
    
     For all of these types, we will set up the relevant **nano bits** for you.   
        
- * [Nanotime.java](src/momomo/com/Nanotime.java)  
+ * **[`Nanotime.java`](src/momomo/com/Nanotime.java)**  
     Is the instance class with similarly named instance methods.
  
-For normal use, you'd just call `Nano.time()`, `Nano.timestamp()`, `Nano.datetime()`, `Nano.localtime()`, `Nano.instant()` ... 
+For normal use, you'd just call **`Nano.time()`**, **`Nano.timestamp()`**, **`Nano.datetime()`**, **`Nano.localtime()`**, **`Nano.instant()`** ... 
 
 #### Thats' it!
 
 ### Configuration
 
-To configure `Nanotime.java` just call `Nanotime.setInstance( new Nanotime(...) )` prior to any use of `Nano.time()`. You can also create your own instance that can be accessed separately. 
+To configure **`Nanotime.java`** just call **`Nanotime.setInstance( new Nanotime(...) )`** prior to any use of **`Nano.time()`**. You can also create your own instance that can be accessed separately. 
 
 ### How accurate is this?  
 * Is this a *100% accurate* record of current time in nanos?   
@@ -121,7 +121,7 @@ So to think you can measure the performance of two invocations using `System.nan
 
 ### Final comments
   
-For us, what is most important *is not* being as close to the most accurate clock ever devices, nor to be as close to `System.currenTimeMillis()` as possible which we've proven is not an exact science anyway but for us, it is only important to get close enough. and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as it will often prove useless when invoked tightly while `System.nanoTime()` will almost always show a `diff` and now so will `Nano.time()`.  
+For us, what is most important *is not* being as close to the most accurate clock ever devices, nor to be as close to `System.currenTimeMillis()` as possible which we've proven is not an exact science anyway but for us, it is only important to get close enough. and should only be seen as a higher precision version of the existing `System.currentTimeMillis()` as it will often prove useless when invoked tightly while `System.nanoTime()` will almost always show a **`diff`** and now so will **`Nano.time()`**.  
 
 Our code just synchronizes the two and allows you to map `System.nanoTime()` to one based on a sane and constant reference frame rather than the randomness of when the JVM turned on.
 
@@ -129,7 +129,7 @@ In the end, we only call **`System.nanoTime() + diff`** where **`diff`** is **`f
 
 ### Sample run & results    
 
-A sample test run on **our example code within [`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
+A sample test run **on our example code within** **[`Nanotime`](src/momomo/com/platform/sources/Nanotime.java)** will output the following which also shows the **rounding** of `System.currentTimeMillis()` **fits extremely well** within bounds.
 
 ```java
 // We generate the data as quick as we can and then generate the strings in the output below
