@@ -137,7 +137,7 @@ A sample test run **on our example code within** **[`Nanotime`](src/momomo/com/p
 array[++i] = Long[]{Nano.time(), System.currentTimeMillis(), Nano.time(), Nano.time(), System.currentTimeMillis()}
 ``` 
 
-You can **[view or download the 100 000 rows of output here (15MB)](https://github.com/momomo/momomo.com.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)**.   
+You can **[view or download the 100 000 rows of output here (15MB)](https://github.com/momomo/momomo.com.yz.github.statics/blob/master/momomo.com.platform.Nanotime/generated/output.txt?raw=true)**.   
 Just scroll through it and ***try to detect & expect*** the flips to occur. 
 
 Some *random highlights* from that file:
