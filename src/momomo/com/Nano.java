@@ -1,5 +1,5 @@
 /*****************************************************************************************************************************************
- Momomo LTD Opensource License 'MoL1' (https://raw.githubusercontent.com/momomo/momomo.com.Licenses/HEAD/MoL1)                       
+ Momomo LTD Opensource License 'MoL1' (https://raw.githubusercontent.com/momomo/momomo.com.yz.licenses/HEAD/MoL1)                       
  
  Copyrightⓒ 2014-2021, Momomo LTD. All rights reserved.                                                                             
  
