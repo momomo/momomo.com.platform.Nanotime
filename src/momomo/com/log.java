@@ -1,0 +1,162 @@
+/* Copyright(C) 2014 - 2020 Momomo LTD. Proprietary and confidential. Usage of this file on any medium without a written consent by Momomo LTD. is strictly prohibited. All Rights Reserved. */
+package momomo.com;
+
+import momomo.com.sources.LogDefault;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+
+/**
+ * Note, the naming with lowercased to allow for quick code completion for intellij since we use this quite often. Log is otherwise filled with naming conflicts and will be hard to autocomplete most of the time.
+ * It is not standard, but convienient, and still works.
+ * 
+ * We can do: 
+ *    log.info (getClass(), '...')
+ *    log.debug(getClass(), '...')
+ *    log.warn (getClass(), '...', '...', '...')
+ *    log.error(getClass(), exception, '...')
+ *    
+ * If setInstance is not called, then the default LogDefault.INSTANCE will be used. 
+ * @see momomo.com.LogCustom
+ * @see momomo.com.sources.LogSilent
+ * @see momomo.com.sources.LogSpeaks 
+ * 
+ *  
+ * 
+ * @author Joseph S.
+ */
+public abstract class log { protected log() {}
+    
+    public static boolean INITIALIZED = false;
+    
+    /////////////////////////////////////////////////////////////////////
+    private static log INSTANCE; private static final Object LOCK = new Object();
+    protected static log getInstance() {
+        if ( INSTANCE == null ) {
+            synchronized (LOCK) {
+                if ( INSTANCE == null ) {
+                    return setInstance(LogDefault.SINGLETON);
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    public static log setInstance(log log) {
+        return INSTANCE = log;
+    }
+    /////////////////////////////////////////////////////////////////////
+    
+    public static void debug(Object... objects) {
+        getInstance().log(getInstance()::debug, objects);
+    }
+    public static void info(Object... objects) {
+        getInstance().log(getInstance()::info, objects);
+    }
+    public static void error(Object... objects) {
+        getInstance().log(getInstance()::error, objects);
+    }
+    public static void warn(Object... objects) {
+        getInstance().log(getInstance()::warn, objects);
+    }
+    public static void fatal(Object... objects) {
+        getInstance().log(getInstance()::fatal, objects);
+    }
+    public static void command(Class<?> klass, List<String> content) {
+        String c      = "$";
+        String chars  = Strings.multiply(c, 30);
+        String header = chars + " " + klass + " " + chars;
+        String center = String.join(" ", content);
+        String footer = Strings.multiply(c, header.length());
+        
+        info(klass, "" + Strings.NEWLINE +
+            header + Strings.NEWLINE +
+            center + Strings.NEWLINE +
+            footer + Strings.NEWLINE
+        );
+    }
+    
+    /////////////////////////////////////////////////////////////////////
+    
+    private void debug(Logger logger, String text) {
+        logger.debug(text);
+    }
+    private void info(Logger logger, String text) {
+        logger.info(text);
+    }
+    private void warn(Logger logger, String text) {
+        logger.warn(text);
+    }
+    private void error(Logger logger, String text) {
+        logger.error(text);
+    }
+    private void fatal(Logger logger, String text) {
+        logger.fatal(text);
+    }
+    
+    /////////////////////////////////////////////////////////////////////
+    
+    protected void log(Lambda.V2<Logger, String> lambda, Object ... objects) {
+        Logger logger;
+        
+        try {
+            if ( objects != null && objects.length > 0 ) {
+                Object obj = objects[0];
+
+                int i = 0;
+                if (obj instanceof Class<?>) {
+                    logger = Logger.getLogger((Class<?>) obj);
+                    ++i;
+                } else {
+                    logger = Logger.getLogger(log.class); // No class provided in the first argument, use this classes logger instead
+                }
+
+                StringBuilder sb = new StringBuilder();
+                while (i < objects.length) {
+                    append(sb, objects[i]); ++i;
+                }
+
+                // If no logger has been defined
+                // On shutdown we do not really care of raised exception to pollute our log files, instead we log them to the console
+                // Also unless a logger has been explitlic created by us ($Log4J) by setting $Log.INITIALIZED then we also log to console
+                if (logger == null || !log.INITIALIZED || Runtimes.isShuttingDownAtomically() ) {
+                    System.out.println(sb.toString());
+                } else {
+                    lambda.call(logger, sb.toString());
+                }
+            }
+        }
+        catch(Throwable e) {
+            Runtimes.pauseIfShuttingDownAtomically();
+
+            throw e;
+        }
+    }
+    
+    /**
+     * Will append any kind of Object. If the object is an Exception then it will log it as generated by Ex.class
+     */
+    private static void append(StringBuilder sb, Object obj) {
+        if ( obj == null ) {
+            sb.append(obj);
+        }
+        else if ( obj instanceof Throwable ) {
+            sb.append(Strings.NEWLINE);
+            Ex.append(sb, (Throwable) obj);
+        }
+        else if ( obj instanceof StackTraceElement[] ) {
+            sb.append(Strings.NEWLINE);
+            Ex.append(sb, (StackTraceElement[]) obj);
+        }
+        else if ( obj.getClass().isArray() ) {
+            for (Object o : (Object[]) obj) {
+                append(sb, o);
+            }
+        }
+        else {
+            sb.append(obj);
+        }
+    }
+    
+    /////////////////////////////////////////////////////////////////////
+    
+}

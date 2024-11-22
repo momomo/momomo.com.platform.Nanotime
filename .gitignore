@@ -1,0 +1,7 @@
+resources/rebel.xml
+assets
+target
+*.iml
+.idea
+pom.mocp
+readme.notes.md                                              
